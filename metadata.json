@@ -1,0 +1,6 @@
+{
+  "name": "FeiraFinance - Gestão Financeira de Feiras e Eventos",
+  "description": "Sistema completo de gestão financeira para feiras e eventos comerciais com controle de recebimentos, pagamentos, fluxo de caixa e relatórios analíticos.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

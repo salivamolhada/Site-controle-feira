@@ -1,0 +1,1314 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FeiraFinance Pro — Gestão Financeira de Feiras e Eventos</title>
+  <meta name="description" content="Plataforma de alta performance para controle financeiro de feiras e eventos comerciais. Gestão de receitas, custos operacionais, estandes e fechamento de caixa." />
+  <meta property="og:title" content="FeiraFinance Pro — Gestão Financeira de Feiras e Eventos" />
+  <meta property="og:description" content="Plataforma de alta performance para controle financeiro de feiras e eventos comerciais. Gestão de receitas, custos operacionais, estandes e fechamento de caixa." />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- Google Fonts: Inter & Space Grotesk -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Pure CSS Arquitetura -->
+  <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+</head>
+<body>
+  <!-- Ambient Background Glow -->
+  <div class="ambient-glow" aria-hidden="true"></div>
+
+  <!-- App Layout Container -->
+  <div class="app-layout">
+    
+    <!-- Mobile Backdrop for Sidebar -->
+    <div id="sidebar-backdrop" class="sidebar-backdrop" aria-hidden="true"></div>
+
+    <!-- Sidebar Lateral -->
+    <aside id="sidebar" class="sidebar" aria-label="Navegação Principal">
+      <div class="sidebar-header">
+        <div class="brand">
+          <div class="brand-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+            </svg>
+          </div>
+          <div class="brand-info">
+            <span class="brand-title">FeiraFinance <span class="badge-pro">PRO</span></span>
+            <span id="sidebar-fair-name" class="brand-subtitle">Feira do Bairro</span>
+          </div>
+        </div>
+        <button id="btn-close-sidebar" class="btn-icon mobile-only" aria-label="Fechar menu lateral">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <nav class="sidebar-nav">
+        <button class="nav-item active" data-tab="dashboard" id="tab-nav-dashboard">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="7" height="9" rx="1.5"></rect>
+            <rect x="14" y="3" width="7" height="5" rx="1.5"></rect>
+            <rect x="14" y="12" width="7" height="9" rx="1.5"></rect>
+            <rect x="3" y="16" width="7" height="5" rx="1.5"></rect>
+          </svg>
+          <span>Dashboard</span>
+        </button>
+
+        <button class="nav-item" data-tab="transactions" id="tab-nav-transactions">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="5" width="20" height="14" rx="2"></rect>
+            <line x1="2" y1="10" x2="22" y2="10"></line>
+          </svg>
+          <span>Lançamentos</span>
+          <span id="nav-count-badge" class="nav-badge">0</span>
+        </button>
+
+        <button class="nav-item" data-tab="booths" id="tab-nav-booths">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+          </svg>
+          <span>Estandes & Expositores</span>
+          <span id="nav-booths-badge" class="nav-badge highlight">12</span>
+        </button>
+
+        <button class="nav-item" data-tab="reports" id="tab-nav-reports">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="20" x2="18" y2="10"></line>
+            <line x1="12" y1="20" x2="12" y2="4"></line>
+            <line x1="6" y1="20" x2="6" y2="14"></line>
+          </svg>
+          <span>Relatórios & Balanço</span>
+        </button>
+
+        <button class="nav-item" data-tab="settings" id="tab-nav-settings">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+          </svg>
+          <span>Configurações</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="fair-status-card">
+          <div class="fair-status-dot"></div>
+          <div class="fair-status-info">
+            <span class="fair-status-label">Status da Edição</span>
+            <span id="sidebar-fair-date-label" class="fair-status-val">Ao Vivo • Em Execução</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="main-wrapper">
+      
+      <!-- Top Application Header -->
+      <header class="app-header">
+        <div class="header-left">
+          <button id="btn-toggle-sidebar" class="btn-icon mobile-only" aria-label="Abrir menu de navegação">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+          <div class="header-titles">
+            <h1 id="page-title" class="page-title">Dashboard Financeiro</h1>
+            <p id="page-subtitle" class="page-subtitle">Acompanhe receitas, custos operacionais e margem do evento</p>
+          </div>
+        </div>
+
+        <div class="header-actions">
+          <!-- Audio Feedback Toggle Button -->
+          <button id="btn-audio-toggle" class="btn-icon" aria-label="Alternar som de confirmação" title="Alternar som">
+            <svg id="icon-sound-on" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+              <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+            </svg>
+            <svg id="icon-sound-off" class="hidden" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="1" y1="1" x2="23" y2="23"></line>
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+              <line x1="23" y1="9" x2="17" y2="15"></line>
+              <line x1="17" y1="9" x2="23" y2="15"></line>
+            </svg>
+          </button>
+
+          <!-- Theme Toggle Button -->
+          <button id="btn-theme-toggle" class="btn-icon" aria-label="Alternar tema claro e escuro" title="Alternar tema">
+            <svg id="icon-theme-moon" class="theme-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+            <svg id="icon-theme-sun" class="theme-icon hidden" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="5"></circle>
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+          </button>
+
+          <!-- Primary Action Button: Novo Lançamento -->
+          <button id="btn-open-new-transaction" class="btn btn-primary" title="Atalho: tecla N">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            <span>Novo Lançamento</span>
+            <kbd class="kbd-badge">N</kbd>
+          </button>
+        </div>
+      </header>
+
+      <!-- Main Content Views Container -->
+      <main class="content-container">
+
+        <!-- ========================================== -->
+        <!-- VIEW 1: DASHBOARD                          -->
+        <!-- ========================================== -->
+        <section id="view-dashboard" class="app-view active" aria-labelledby="page-title">
+          
+          <!-- Event Header Banner -->
+          <div class="event-banner">
+            <div class="event-banner-content">
+              <div class="event-tag">Gestão Integrada de Feira</div>
+              <h2 id="dashboard-fair-title" class="event-name">Feira do Bairro</h2>
+              <p id="dashboard-fair-dates" class="event-dates">Edição 2026 • Controle Operacional de Fluxo de Caixa</p>
+            </div>
+            <div class="event-banner-metrics">
+              <div class="banner-stat">
+                <span class="banner-stat-label">Movimentações</span>
+                <span id="dashboard-total-transactions-count" class="banner-stat-value">0</span>
+              </div>
+              <div class="banner-stat">
+                <span class="banner-stat-label">Taxa de Execução</span>
+                <span id="dashboard-execution-rate" class="banner-stat-value">100%</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Action Launchpad (1-Clique) -->
+          <div class="quick-launchpad">
+            <span class="quick-launchpad-label">⚡ Lançamento Rápido:</span>
+            <div class="quick-pills-list">
+              <button class="quick-pill income" data-quick-desc="Aluguel Estande" data-quick-cat="Aluguel de Estande" data-quick-type="income">+ Estande</button>
+              <button class="quick-pill income" data-quick-desc="Venda Ingressos Portaria" data-quick-cat="Venda de Ingressos" data-quick-type="income">+ Ingressos</button>
+              <button class="quick-pill income" data-quick-desc="Cota Patrocínio" data-quick-cat="Patrocínio Master" data-quick-type="income">+ Patrocínio</button>
+              <button class="quick-pill expense" data-quick-desc="Diária Segurança e Brigada" data-quick-cat="Segurança & Vigilância" data-quick-type="expense">- Segurança</button>
+              <button class="quick-pill expense" data-quick-desc="Equipamento de Som e Palco" data-quick-cat="Palco, Som & Iluminação" data-quick-type="expense">- Som & Palco</button>
+              <button class="quick-pill expense" data-quick-desc="Coleta e Limpeza da Praça" data-quick-cat="Limpeza & Resíduos" data-quick-type="expense">- Limpeza</button>
+            </div>
+          </div>
+
+          <!-- 4 KPI Cards com Mini Sparklines -->
+          <div class="kpi-grid">
+            
+            <!-- Card 1: Total Recebido -->
+            <div class="kpi-card kpi-income">
+              <div class="kpi-top">
+                <span class="kpi-title">Total Recebido</span>
+                <div class="kpi-icon-wrapper income">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                    <polyline points="17 6 23 6 23 12"></polyline>
+                  </svg>
+                </div>
+              </div>
+              <div class="kpi-body">
+                <span id="kpi-total-income" class="kpi-value font-display">R$ 0,00</span>
+                <div class="kpi-sparkline-box">
+                  <canvas id="sparkline-income" class="sparkline-canvas" width="100" height="26"></canvas>
+                </div>
+                <div class="kpi-footer">
+                  <span id="kpi-income-trend" class="badge-trend positive">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"></polyline></svg>
+                    <span>+0%</span>
+                  </span>
+                  <span class="kpi-compare-label">vs. mês anterior</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 2: Total Pago -->
+            <div class="kpi-card kpi-expense">
+              <div class="kpi-top">
+                <span class="kpi-title">Total Pago</span>
+                <div class="kpi-icon-wrapper expense">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
+                    <polyline points="17 18 23 18 23 12"></polyline>
+                  </svg>
+                </div>
+              </div>
+              <div class="kpi-body">
+                <span id="kpi-total-expense" class="kpi-value font-display">R$ 0,00</span>
+                <div class="kpi-sparkline-box">
+                  <canvas id="sparkline-expense" class="sparkline-canvas" width="100" height="26"></canvas>
+                </div>
+                <div class="kpi-footer">
+                  <span id="kpi-expense-trend" class="badge-trend negative">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    <span>0%</span>
+                  </span>
+                  <span class="kpi-compare-label">vs. mês anterior</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 3: Saldo Atual -->
+            <div class="kpi-card kpi-balance">
+              <div class="kpi-top">
+                <span class="kpi-title">Saldo Líquido</span>
+                <div class="kpi-icon-wrapper balance">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                  </svg>
+                </div>
+              </div>
+              <div class="kpi-body">
+                <span id="kpi-net-balance" class="kpi-value font-display">R$ 0,00</span>
+                <div class="kpi-sparkline-box">
+                  <canvas id="sparkline-balance" class="sparkline-canvas" width="100" height="26"></canvas>
+                </div>
+                <div class="kpi-footer">
+                  <span id="kpi-balance-status" class="badge-status positive">Superávit</span>
+                  <span class="kpi-compare-label">Disponível em caixa</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 4: Margem Operacional -->
+            <div class="kpi-card kpi-margin">
+              <div class="kpi-top">
+                <span class="kpi-title">Margem de Lucro</span>
+                <div class="kpi-icon-wrapper margin">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <path d="m4.93 4.93 14.14 14.14"></path>
+                  </svg>
+                </div>
+              </div>
+              <div class="kpi-body">
+                <span id="kpi-margin-rate" class="kpi-value font-display">0.0%</span>
+                <div class="progress-bar-sm mt-2">
+                  <div id="kpi-margin-bar" class="progress-fill" style="width: 0%;"></div>
+                </div>
+                <div class="kpi-footer">
+                  <span id="kpi-margin-eval" class="kpi-compare-label font-medium">Excelente</span>
+                  <span class="kpi-compare-label">• Rentabilidade Real</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Event Target & Cash Liquidity Overview (Especializado para Feiras) -->
+          <div class="fair-target-grid">
+            
+            <!-- Meta de Arrecadação & Ponto de Equilíbrio -->
+            <div class="card target-card">
+              <div class="card-header-with-action">
+                <div>
+                  <h3 class="card-title">Meta de Arrecadação & Ponto de Equilíbrio</h3>
+                  <p class="card-subtitle">Planejamento financeiro vs. execução orçamentária</p>
+                </div>
+                <span id="stat-target-percent" class="stat-pill-brand">0% da Meta</span>
+              </div>
+
+              <div class="target-progress-wrapper">
+                <div class="target-progress-bar-outer">
+                  <div id="target-progress-bar" class="target-progress-fill" style="width: 0%;"></div>
+                </div>
+                <div class="target-numbers-row">
+                  <span>Meta Orçada: <strong id="stat-target-goal" class="font-display">R$ 35.000,00</strong></span>
+                  <span>Restante p/ Meta: <strong id="stat-remaining-goal" class="font-display">R$ 0,00</strong></span>
+                </div>
+              </div>
+
+              <div class="break-even-box">
+                <div class="break-even-icon">🎯</div>
+                <div class="break-even-info">
+                  <span class="break-even-label">Ponto de Equilíbrio (Break-Even):</span>
+                  <span id="stat-break-even-status" class="break-even-val">Calculando custos operacionais...</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Caixa por Meio de Pagamento (PIX, Espécie, Cartões) -->
+            <div class="card liquidity-card">
+              <div class="card-header-with-action">
+                <div>
+                  <h3 class="card-title">Liquidez & Fechamento de Caixa</h3>
+                  <p class="card-subtitle">Volume arrecadado por forma de pagamento</p>
+                </div>
+              </div>
+
+              <div class="liquidity-pills-grid">
+                <div class="liquidity-pill pix">
+                  <span class="l-label">PIX (Instantâneo)</span>
+                  <span id="cash-liquidity-pix" class="l-val font-display">R$ 0,00</span>
+                </div>
+                <div class="liquidity-pill cash">
+                  <span class="l-label">Dinheiro em Espécie</span>
+                  <span id="cash-liquidity-cash" class="l-val font-display">R$ 0,00</span>
+                </div>
+                <div class="liquidity-pill card-p">
+                  <span class="l-label">Cartões (Débito/Crédito)</span>
+                  <span id="cash-liquidity-card" class="l-val font-display">R$ 0,00</span>
+                </div>
+              </div>
+
+              <div class="booths-quick-status-row">
+                <span class="b-status-label">Ocupação dos Estandes:</span>
+                <span id="dashboard-booths-status-summary" class="b-status-val">0 quitados • 0 parciais</span>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Charts Row 1: Evolução do Saldo & Donut de Categorias -->
+          <div class="charts-grid">
+            
+            <!-- Gráfico de Linha: Evolução do Saldo -->
+            <div class="card chart-card flex-2">
+              <div class="chart-header">
+                <div>
+                  <h3 class="card-title">Evolução do Saldo</h3>
+                  <p class="card-subtitle">Fluxo cumulativo ao longo do tempo</p>
+                </div>
+                <div class="chart-legend-simple">
+                  <span class="legend-indicator brand"></span>
+                  <span class="legend-text">Saldo Acumulado</span>
+                </div>
+              </div>
+              <div class="chart-canvas-wrapper">
+                <canvas id="chart-balance-evolution"></canvas>
+              </div>
+            </div>
+
+            <!-- Gráfico de Donut: Distribuição por Categoria -->
+            <div class="card chart-card flex-1">
+              <div class="chart-header">
+                <div>
+                  <h3 class="card-title">Categorias</h3>
+                  <p class="card-subtitle">Distribuição por volume financeiro</p>
+                </div>
+                <div class="chart-select-wrapper">
+                  <select id="chart-category-type-select" class="select-sm" aria-label="Filtrar categorias por tipo">
+                    <option value="expense">Despesas</option>
+                    <option value="income">Receitas</option>
+                  </select>
+                </div>
+              </div>
+              <div class="chart-canvas-wrapper donut-wrapper">
+                <canvas id="chart-category-donut"></canvas>
+              </div>
+              <div id="chart-donut-legend" class="donut-legend"></div>
+            </div>
+
+          </div>
+
+          <!-- Bottom Row: Gráfico de Barras Mensal + Últimos 5 Lançamentos -->
+          <div class="dashboard-bottom-grid">
+            
+            <!-- Gráfico de Barras: Mensal Receitas vs Despesas -->
+            <div class="card chart-card">
+              <div class="chart-header">
+                <div>
+                  <h3 class="card-title">Receitas vs. Despesas</h3>
+                  <p class="card-subtitle">Comparativo mensal consolidado</p>
+                </div>
+                <div class="chart-legend-dual">
+                  <span class="legend-pill income"><span class="legend-dot"></span> Recebimentos</span>
+                  <span class="legend-pill expense"><span class="legend-dot"></span> Pagamentos</span>
+                </div>
+              </div>
+              <div class="chart-canvas-wrapper">
+                <canvas id="chart-monthly-bars"></canvas>
+              </div>
+            </div>
+
+            <!-- Últimos 5 Lançamentos -->
+            <div class="card recent-transactions-card">
+              <div class="card-header-with-action">
+                <div>
+                  <h3 class="card-title">Últimos Lançamentos</h3>
+                  <p class="card-subtitle">Movimentações mais recentes</p>
+                </div>
+                <button class="btn btn-ghost btn-sm" id="btn-view-all-transactions">
+                  <span>Ver Todos</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </button>
+              </div>
+              <div id="recent-transactions-list" class="recent-list"></div>
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <!-- ========================================== -->
+        <!-- VIEW 2: LANÇAMENTOS                        -->
+        <!-- ========================================== -->
+        <section id="view-transactions" class="app-view" aria-labelledby="transactions-heading">
+          
+          <div class="view-header">
+            <div>
+              <h2 id="transactions-heading" class="view-title">Todos os Lançamentos</h2>
+              <p class="view-subtitle">Controle detalhado de entradas e saídas da feira</p>
+            </div>
+            <div class="view-header-stats">
+              <div class="stat-badge">
+                <span class="stat-badge-label">Total Filtrado:</span>
+                <span id="filtered-total-amount" class="stat-badge-val font-display">R$ 0,00</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Filter Bar Box -->
+          <div class="card filter-card">
+            
+            <div class="filter-row primary">
+              <div class="search-box">
+                <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                <input type="text" id="filter-search-input" class="form-input search-input" placeholder="Buscar por descrição ou responsável..." aria-label="Buscar lançamentos" />
+                <button id="btn-clear-search" class="btn-clear-search hidden" aria-label="Limpar busca">✕</button>
+              </div>
+
+              <div class="segmented-control" role="radiogroup" aria-label="Filtrar por tipo">
+                <button class="segmented-btn active" data-type-filter="all" role="radio" aria-checked="true">Todos</button>
+                <button class="segmented-btn" data-type-filter="income" role="radio" aria-checked="false">Receitas</button>
+                <button class="segmented-btn" data-type-filter="expense" role="radio" aria-checked="false">Despesas</button>
+              </div>
+
+              <div class="filter-select-wrapper">
+                <select id="filter-category-select" class="form-select" aria-label="Filtrar por categoria">
+                  <option value="all">Todas as Categorias</option>
+                </select>
+              </div>
+
+              <div class="filter-period-wrapper">
+                <select id="filter-period-preset" class="form-select" aria-label="Atalhos de período">
+                  <option value="all">Todo o Período</option>
+                  <option value="today">Hoje</option>
+                  <option value="last7">Últimos 7 dias</option>
+                  <option value="thisMonth" selected>Este Mês</option>
+                  <option value="thisYear">Este Ano</option>
+                  <option value="custom">Personalizado...</option>
+                </select>
+              </div>
+
+              <button id="btn-reset-filters" class="btn btn-secondary btn-sm" title="Limpar todos os filtros">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
+                <span>Limpar</span>
+              </button>
+            </div>
+
+            <!-- Custom Date Range Row -->
+            <div id="custom-date-range-row" class="filter-row custom-dates hidden">
+              <div class="date-input-group">
+                <label for="filter-date-start">De:</label>
+                <input type="date" id="filter-date-start" class="form-input date-input" />
+              </div>
+              <div class="date-input-group">
+                <label for="filter-date-end">Até:</label>
+                <input type="date" id="filter-date-end" class="form-input date-input" />
+              </div>
+              <button id="btn-apply-custom-dates" class="btn btn-primary btn-sm">Aplicar Período</button>
+            </div>
+
+            <!-- Active Filter Chips -->
+            <div id="active-filter-chips" class="active-chips-container hidden">
+              <span class="chips-label">Filtros ativos:</span>
+              <div id="chips-list" class="chips-list"></div>
+            </div>
+
+          </div>
+
+          <!-- Batch Action Floating / Sticky Bar -->
+          <div id="batch-action-bar" class="batch-bar hidden" role="region" aria-live="polite">
+            <div class="batch-bar-left">
+              <span id="batch-selected-count" class="batch-count-badge">0</span>
+              <span class="batch-count-text">lançamento(s) selecionado(s)</span>
+            </div>
+            <div class="batch-bar-right">
+              <button id="btn-batch-delete" class="btn btn-danger btn-sm">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                <span>Excluir Selecionados</span>
+              </button>
+              <button id="btn-batch-deselect" class="btn btn-ghost btn-sm">Desmarcar</button>
+            </div>
+          </div>
+
+          <!-- Transactions Table Card -->
+          <div class="card table-card">
+            <div class="table-responsive">
+              <table id="transactions-table" class="data-table">
+                <thead>
+                  <tr>
+                    <th class="th-checkbox">
+                      <input type="checkbox" id="th-select-all" aria-label="Selecionar todos os lançamentos da página" />
+                    </th>
+                    <th class="th-sortable" data-sort="date" tabindex="0" role="button">
+                      <span>Data</span>
+                      <span class="sort-indicator" data-sort-icon="date">↕</span>
+                    </th>
+                    <th class="th-sortable" data-sort="type" tabindex="0" role="button">
+                      <span>Tipo</span>
+                      <span class="sort-indicator" data-sort-icon="type">↕</span>
+                    </th>
+                    <th class="th-sortable" data-sort="description" tabindex="0" role="button">
+                      <span>Descrição</span>
+                      <span class="sort-indicator" data-sort-icon="description">↕</span>
+                    </th>
+                    <th class="th-sortable" data-sort="category" tabindex="0" role="button">
+                      <span>Categoria</span>
+                      <span class="sort-indicator" data-sort-icon="category">↕</span>
+                    </th>
+                    <th class="th-sortable" data-sort="paymentMethod" tabindex="0" role="button">
+                      <span>Forma Pgto</span>
+                      <span class="sort-indicator" data-sort-icon="paymentMethod">↕</span>
+                    </th>
+                    <th class="th-sortable" data-sort="responsible" tabindex="0" role="button">
+                      <span>Responsável</span>
+                      <span class="sort-indicator" data-sort-icon="responsible">↕</span>
+                    </th>
+                    <th class="th-sortable text-right" data-sort="amount" tabindex="0" role="button">
+                      <span>Valor</span>
+                      <span class="sort-indicator" data-sort-icon="amount">↕</span>
+                    </th>
+                    <th class="th-actions text-center">Ações</th>
+                  </tr>
+                </thead>
+                <tbody id="transactions-tbody"></tbody>
+              </table>
+            </div>
+
+            <!-- Table Empty State -->
+            <div id="table-empty-state" class="empty-state hidden">
+              <div class="empty-state-icon">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="8" y1="12" x2="16" y2="12"></line>
+                </svg>
+              </div>
+              <h3 class="empty-state-title">Nenhum lançamento encontrado</h3>
+              <p class="empty-state-desc">Ajuste os filtros de busca ou cadastre um novo lançamento financeiro.</p>
+              <button id="btn-empty-state-create" class="btn btn-primary btn-sm">Novo Lançamento</button>
+            </div>
+
+            <!-- Pagination Bar -->
+            <div class="pagination-bar">
+              <div class="pagination-info">
+                <span id="pagination-summary">Exibindo 0 a 0 de 0 registros</span>
+                <div class="items-per-page">
+                  <label for="select-items-per-page">Por página:</label>
+                  <select id="select-items-per-page" class="select-xs">
+                    <option value="5">5</option>
+                    <option value="10" selected>10</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="pagination-controls">
+                <button id="btn-pagination-prev" class="btn-page" aria-label="Página anterior" disabled>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                </button>
+                <div id="pagination-pages" class="pagination-numbers"></div>
+                <button id="btn-pagination-next" class="btn-page" aria-label="Próxima página" disabled>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <!-- ========================================== -->
+        <!-- VIEW 3: ESTANDES & EXPOSITORES (NOVO)     -->
+        <!-- ========================================== -->
+        <section id="view-booths" class="app-view" aria-labelledby="booths-heading">
+          
+          <div class="view-header">
+            <div>
+              <h2 id="booths-heading" class="view-title">Gestão de Estandes & Expositores</h2>
+              <p class="view-subtitle">Controle de locação de espaços comerciais, contratos e adimplência</p>
+            </div>
+            <div class="view-header-actions">
+              <button id="btn-export-booths-csv" class="btn btn-secondary btn-sm" title="Exportar relação de estandes para CSV">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                <span>Exportar Estandes</span>
+              </button>
+              <button id="btn-open-new-booth-modal" class="btn btn-primary btn-sm">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                <span>Cadastrar Estande</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Booths Quick KPI Stats -->
+          <div class="report-highlights-grid">
+            <div class="highlight-item">
+              <span class="highlight-label">Ocupação de Espaços</span>
+              <span id="booths-stat-occupied" class="highlight-value font-display">0/0 (0%)</span>
+              <span class="highlight-sub">Estandes preenchidos</span>
+            </div>
+            <div class="highlight-item income">
+              <span class="highlight-label">Total Contratado</span>
+              <span id="booths-stat-contracted" class="highlight-value font-display">R$ 0,00</span>
+              <span class="highlight-sub">Previsão bruta de estandes</span>
+            </div>
+            <div class="highlight-item balance">
+              <span class="highlight-label">Total Arrecadado</span>
+              <span id="booths-stat-collected" class="highlight-value font-display">R$ 0,00</span>
+              <span class="highlight-sub">Já liquidado pelos feirantes</span>
+            </div>
+            <div class="highlight-item expense">
+              <span class="highlight-label">Saldo a Receber</span>
+              <span id="booths-stat-pending" class="highlight-value font-display">R$ 0,00</span>
+              <span class="highlight-sub">Em aberto / parcelas pendentes</span>
+            </div>
+          </div>
+
+          <!-- Booths Toolbar -->
+          <div class="card filter-card">
+            <div class="filter-row primary">
+              <div class="search-box">
+                <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                <input type="text" id="search-booths-input" class="form-input search-input" placeholder="Buscar por número do estande, expositor ou setor..." aria-label="Buscar estandes" />
+              </div>
+
+              <div class="filter-select-wrapper">
+                <select id="filter-booth-sector" class="form-select" aria-label="Filtrar por setor">
+                  <option value="all">Todos os Setores</option>
+                  <option value="Gastronomia">Gastronomia & Food Trucks</option>
+                  <option value="Artesanato">Artesanato & Manualidades</option>
+                  <option value="Moda">Moda & Vestuário</option>
+                  <option value="Saúde & Beleza">Saúde & Beleza</option>
+                  <option value="Tecnologia">Tecnologia & Inovação</option>
+                  <option value="Paisagismo">Paisagismo & Plantas</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Booths Cards Grid Container -->
+          <div id="booths-grid-container" class="booths-grid"></div>
+
+        </section>
+
+
+        <!-- ========================================== -->
+        <!-- VIEW 4: RELATÓRIOS & BALANÇO               -->
+        <!-- ========================================== -->
+        <section id="view-reports" class="app-view" aria-labelledby="reports-heading">
+          
+          <div class="view-header">
+            <div>
+              <h2 id="reports-heading" class="view-title">Relatórios e Análise Financeira</h2>
+              <p class="view-subtitle">Demonstrativo consolidado, distribuição orçamentária e exportações</p>
+            </div>
+            <div class="view-header-actions">
+              <button id="btn-print-report" class="btn btn-primary btn-sm" title="Imprimir Balanço Consolidado Oficial para Auditoria">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+                <span>Imprimir Balanço Oficial</span>
+              </button>
+              <button id="btn-export-csv" class="btn btn-secondary btn-sm" title="Exportar tabela de lançamentos em CSV com compatibilidade Excel">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                <span>Exportar CSV</span>
+              </button>
+              <button id="btn-export-json" class="btn btn-secondary btn-sm" title="Exportar backup completo em JSON">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                <span>Exportar JSON</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Reports Consolidated Highlights -->
+          <div class="report-highlights-grid">
+            <div class="highlight-item income">
+              <span class="highlight-label">Receita Bruta</span>
+              <span id="report-stat-income" class="highlight-value font-display">R$ 0,00</span>
+              <span id="report-stat-income-count" class="highlight-sub">0 lançamentos</span>
+            </div>
+            <div class="highlight-item expense">
+              <span class="highlight-label">Despesas Operacionais</span>
+              <span id="report-stat-expense" class="highlight-value font-display">R$ 0,00</span>
+              <span id="report-stat-expense-count" class="highlight-sub">0 lançamentos</span>
+            </div>
+            <div class="highlight-item balance">
+              <span class="highlight-label">Resultado Líquido</span>
+              <span id="report-stat-balance" class="highlight-value font-display">R$ 0,00</span>
+              <span id="report-stat-balance-rate" class="highlight-sub">0% de margem</span>
+            </div>
+            <div class="highlight-item avg">
+              <span class="highlight-label">Ticket Médio de Receita</span>
+              <span id="report-stat-avg-ticket" class="highlight-value font-display">R$ 0,00</span>
+              <span class="highlight-sub">Por transação</span>
+            </div>
+          </div>
+
+          <!-- Reports Dual Tables -->
+          <div class="reports-tables-grid">
+            
+            <div class="card">
+              <div class="card-header-with-action">
+                <div>
+                  <h3 class="card-title">Resumo por Categoria</h3>
+                  <p class="card-subtitle">Volume e representatividade percentual</p>
+                </div>
+                <button id="btn-export-categories-csv" class="btn btn-ghost btn-xs">CSV Categorias</button>
+              </div>
+              <div class="table-responsive">
+                <table class="data-table table-condensed">
+                  <thead>
+                    <tr>
+                      <th>Categoria</th>
+                      <th>Tipo</th>
+                      <th class="text-center">Qtd</th>
+                      <th class="text-right">Total (R$)</th>
+                      <th class="text-right">%</th>
+                      <th style="width: 100px;">Progresso</th>
+                    </tr>
+                  </thead>
+                  <tbody id="report-categories-tbody"></tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header-with-action">
+                <div>
+                  <h3 class="card-title">Resumo por Forma de Pagamento</h3>
+                  <p class="card-subtitle">Preferência e liquidez financeira</p>
+                </div>
+              </div>
+              <div class="table-responsive">
+                <table class="data-table table-condensed">
+                  <thead>
+                    <tr>
+                      <th>Forma de Pagamento</th>
+                      <th class="text-center">Qtd</th>
+                      <th class="text-right">Recebido</th>
+                      <th class="text-right">Pago</th>
+                      <th class="text-right">Total</th>
+                    </tr>
+                  </thead>
+                  <tbody id="report-payments-tbody"></tbody>
+                </table>
+              </div>
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <!-- ========================================== -->
+        <!-- VIEW 5: CONFIGURAÇÕES                      -->
+        <!-- ========================================== -->
+        <section id="view-settings" class="app-view" aria-labelledby="settings-heading">
+          
+          <div class="view-header">
+            <div>
+              <h2 id="settings-heading" class="view-title">Configurações do Evento</h2>
+              <p class="view-subtitle">Personalize a identidade da feira, metas orçamentárias e categorias</p>
+            </div>
+          </div>
+
+          <div class="settings-grid">
+            
+            <div class="card">
+              <h3 class="card-title">Informações do Evento</h3>
+              <p class="card-subtitle">Estes dados são exibidos no cabeçalho e nos relatórios</p>
+
+              <form id="form-fair-settings" class="settings-form">
+                <div class="form-group">
+                  <label for="setting-fair-name" class="form-label">Nome da Feira ou Evento <span class="required">*</span></label>
+                  <input type="text" id="setting-fair-name" class="form-input" required placeholder="Ex.: Feira de Artesanato & Gastronomia" />
+                </div>
+
+                <div class="form-row-2">
+                  <div class="form-group">
+                    <label for="setting-fair-edition" class="form-label">Edição do Evento</label>
+                    <input type="text" id="setting-fair-edition" class="form-input" placeholder="Ex.: 12ª Edição 2026" />
+                  </div>
+                  <div class="form-group">
+                    <label for="setting-target-goal" class="form-label">Meta de Arrecadação (R$)</label>
+                    <input type="number" id="setting-target-goal" class="form-input font-display" placeholder="35000" />
+                  </div>
+                </div>
+
+                <div class="form-row-2">
+                  <div class="form-group">
+                    <label for="setting-fair-date-start" class="form-label">Data de Início</label>
+                    <input type="date" id="setting-fair-date-start" class="form-input" />
+                  </div>
+                  <div class="form-group">
+                    <label for="setting-fair-date-end" class="form-label">Data de Término</label>
+                    <input type="date" id="setting-fair-date-end" class="form-input" />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="setting-fair-location" class="form-label">Localização ou Pavilhão</label>
+                  <input type="text" id="setting-fair-location" class="form-input" placeholder="Ex.: Centro de Convenções - Pavilhão A" />
+                </div>
+
+                <div class="form-actions-left">
+                  <button type="submit" class="btn btn-primary">Salvar Informações</button>
+                </div>
+              </form>
+            </div>
+
+            <div class="card">
+              <h3 class="card-title">Aparência & Experiência</h3>
+              <p class="card-subtitle">Tema de cores e feedback interativo</p>
+
+              <div class="theme-options-grid">
+                <label class="theme-option-card">
+                  <input type="radio" name="app-theme-choice" value="dark" class="theme-radio" />
+                  <div class="theme-option-box dark">
+                    <div class="theme-preview-ui">
+                      <div class="theme-preview-bar"></div>
+                      <div class="theme-preview-body"></div>
+                    </div>
+                    <span class="theme-option-title">Tema Escuro</span>
+                    <span class="theme-option-desc">Ideal para menor fadiga visual</span>
+                  </div>
+                </label>
+
+                <label class="theme-option-card">
+                  <input type="radio" name="app-theme-choice" value="light" class="theme-radio" />
+                  <div class="theme-option-box light">
+                    <div class="theme-preview-ui">
+                      <div class="theme-preview-bar"></div>
+                      <div class="theme-preview-body"></div>
+                    </div>
+                    <span class="theme-option-title">Tema Claro</span>
+                    <span class="theme-option-desc">Alto contraste para dias ensolarados</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <div class="card full-width">
+              <h3 class="card-title">Gerenciamento de Categorias</h3>
+              <p class="card-subtitle">Adicione ou remova categorias disponíveis nos lançamentos</p>
+
+              <div class="categories-manager-grid">
+                
+                <div class="category-column">
+                  <div class="category-column-header">
+                    <h4 class="category-type-title income">
+                      <span class="dot-income"></span>
+                      Categorias de Receitas
+                    </h4>
+                  </div>
+                  
+                  <div class="add-category-box">
+                    <input type="text" id="input-new-income-category" class="form-input form-input-sm" placeholder="Nova categoria de receita..." />
+                    <button id="btn-add-income-category" class="btn btn-secondary btn-sm">Adicionar</button>
+                  </div>
+
+                  <ul id="list-income-categories" class="categories-list"></ul>
+                </div>
+
+                <div class="category-column">
+                  <div class="category-column-header">
+                    <h4 class="category-type-title expense">
+                      <span class="dot-expense"></span>
+                      Categorias de Despesas
+                    </h4>
+                  </div>
+                  
+                  <div class="add-category-box">
+                    <input type="text" id="input-new-expense-category" class="form-input form-input-sm" placeholder="Nova categoria de despesa..." />
+                    <button id="btn-add-expense-category" class="btn btn-secondary btn-sm">Adicionar</button>
+                  </div>
+
+                  <ul id="list-expense-categories" class="categories-list"></ul>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="card full-width danger-zone-card">
+              <h3 class="card-title text-danger">Zona de Perigo & Restauração</h3>
+              <p class="card-subtitle">Ações que modificam os dados persistidos no navegador</p>
+
+              <div class="danger-actions-row">
+                <div class="danger-action-info">
+                  <strong>Restaurar Dados de Demonstração</strong>
+                  <p>Recarrega 20 lançamentos realistas e 12 estandes de exemplo para testes e homologação.</p>
+                </div>
+                <button id="btn-restore-demo-data" class="btn btn-secondary">
+                  Restaurar Demonstração
+                </button>
+              </div>
+
+              <div class="danger-divider"></div>
+
+              <div class="danger-actions-row">
+                <div class="danger-action-info">
+                  <strong>Apagar Todos os Lançamentos</strong>
+                  <p>Remove permanentemente todas as movimentações financeiras salvas no localStorage.</p>
+                </div>
+                <button id="btn-open-clear-all-modal" class="btn btn-danger">
+                  Apagar Tudo
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+
+  <!-- ======================================================== -->
+  <!-- MODAL: NOVO / EDITAR LANÇAMENTO                         -->
+  <!-- ======================================================== -->
+  <div id="modal-transaction" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="modal-transaction-title">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div>
+          <h3 id="modal-transaction-title" class="modal-title">Novo Lançamento</h3>
+          <p class="modal-subtitle">Preencha os dados do registro financeiro</p>
+        </div>
+        <button id="btn-close-transaction-modal" class="btn-icon" aria-label="Fechar modal">✕</button>
+      </div>
+
+      <div class="modal-tabs">
+        <button id="tab-type-income" type="button" class="modal-tab-btn active" data-type="income">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+          <span>Recebimento</span>
+        </button>
+        <button id="tab-type-expense" type="button" class="modal-tab-btn" data-type="expense">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline><polyline points="17 18 23 18 23 12"></polyline></svg>
+          <span>Pagamento</span>
+        </button>
+      </div>
+
+      <form id="form-transaction" class="modal-form" novalidate>
+        <input type="hidden" id="tx-id" value="" />
+        <input type="hidden" id="tx-type" value="income" />
+
+        <div class="form-group">
+          <label for="tx-description" class="form-label">Descrição do Lançamento <span class="required">*</span></label>
+          <input type="text" id="tx-description" class="form-input" placeholder="Ex.: Aluguel Estande 14 - Gourmet" required />
+          <span id="err-tx-description" class="field-error hidden">A descrição é obrigatória (mínimo 3 caracteres).</span>
+        </div>
+
+        <div class="form-row-2">
+          <div class="form-group">
+            <label for="tx-amount" class="form-label">Valor (R$) <span class="required">*</span></label>
+            <input type="text" id="tx-amount" class="form-input font-display font-semibold" placeholder="R$ 0,00" required inputmode="numeric" />
+            <span id="err-tx-amount" class="field-error hidden">O valor deve ser maior que R$ 0,00.</span>
+          </div>
+
+          <div class="form-group">
+            <label for="tx-date" class="form-label">Data da Transação <span class="required">*</span></label>
+            <input type="date" id="tx-date" class="form-input" required />
+            <span id="err-tx-date" class="field-error hidden">Informe uma data válida.</span>
+          </div>
+        </div>
+
+        <div class="form-row-2">
+          <div class="form-group">
+            <label for="tx-category" class="form-label">Categoria <span class="required">*</span></label>
+            <select id="tx-category" class="form-select" required></select>
+            <span id="err-tx-category" class="field-error hidden">Selecione uma categoria.</span>
+          </div>
+
+          <div class="form-group">
+            <label for="tx-payment-method" class="form-label">Forma de Pagamento <span class="required">*</span></label>
+            <select id="tx-payment-method" class="form-select" required>
+              <option value="PIX">PIX</option>
+              <option value="Cartão de Crédito">Cartão de Crédito</option>
+              <option value="Cartão de Débito">Cartão de Débito</option>
+              <option value="Dinheiro">Dinheiro</option>
+              <option value="Boleto Bancário">Boleto Bancário</option>
+              <option value="Transferência Bancária">Transferência Bancária</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="tx-responsible" class="form-label">Responsável / Recebedor / Fornecedor</label>
+          <input type="text" id="tx-responsible" class="form-input" placeholder="Ex.: Carlos Silva (Tesouraria)" />
+        </div>
+
+        <div class="form-group">
+          <label for="tx-notes" class="form-label">Observações Adicionais</label>
+          <textarea id="tx-notes" class="form-textarea" rows="2" placeholder="Informações de nota fiscal, recibo ou detalhes..."></textarea>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" id="btn-cancel-transaction-modal" class="btn btn-secondary">Cancelar</button>
+          <button type="submit" id="btn-save-transaction" class="btn btn-primary">Salvar Lançamento</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- ======================================================== -->
+  <!-- MODAL: CADASTRAR / EDITAR ESTANDE                       -->
+  <!-- ======================================================== -->
+  <div id="modal-booth" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="modal-booth-title">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div>
+          <h3 id="modal-booth-title" class="modal-title">Cadastrar Novo Estande</h3>
+          <p class="modal-subtitle">Controle de espaço comercial da feira</p>
+        </div>
+        <button id="btn-close-booth-modal" class="btn-icon" aria-label="Fechar modal">✕</button>
+      </div>
+
+      <form id="form-booth" class="modal-form">
+        <input type="hidden" id="booth-id" value="" />
+
+        <div class="form-row-2">
+          <div class="form-group">
+            <label for="booth-number" class="form-label">Identificação do Estande <span class="required">*</span></label>
+            <input type="text" id="booth-number" class="form-input" placeholder="Ex.: Estande 05 ou Ilha Gourmet B" required />
+          </div>
+          <div class="form-group">
+            <label for="booth-sector" class="form-label">Setor / Segmento <span class="required">*</span></label>
+            <select id="booth-sector" class="form-select" required>
+              <option value="Gastronomia">Gastronomia</option>
+              <option value="Artesanato">Artesanato</option>
+              <option value="Moda">Moda</option>
+              <option value="Saúde & Beleza">Saúde & Beleza</option>
+              <option value="Tecnologia">Tecnologia</option>
+              <option value="Paisagismo">Paisagismo</option>
+              <option value="Geral">Geral</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="booth-exhibitor" class="form-label">Nome do Expositor / Marca <span class="required">*</span></label>
+          <input type="text" id="booth-exhibitor" class="form-input" placeholder="Ex.: Doces da Serra Ltda" required />
+        </div>
+
+        <div class="form-row-2">
+          <div class="form-group">
+            <label for="booth-price" class="form-label">Valor Total Locação (R$) <span class="required">*</span></label>
+            <input type="number" step="0.01" id="booth-price" class="form-input font-display" placeholder="1200.00" required />
+          </div>
+          <div class="form-group">
+            <label for="booth-paid" class="form-label">Valor Já Pago (R$)</label>
+            <input type="number" step="0.01" id="booth-paid" class="form-input font-display" placeholder="0.00" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="booth-contact" class="form-label">Telefone / Contato do Expositor</label>
+          <input type="text" id="booth-contact" class="form-input" placeholder="Ex.: (11) 98765-4321" />
+        </div>
+
+        <div class="form-group">
+          <label for="booth-notes" class="form-label">Observações Técnicas (Elétrica, bancadas, etc.)</label>
+          <textarea id="booth-notes" class="form-textarea" rows="2" placeholder="Ex.: Tomada 220V, bancada de 2 metros inclusa..."></textarea>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" id="btn-cancel-booth-modal" class="btn btn-secondary">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Salvar Estande</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- ======================================================== -->
+  <!-- MODAL: RECIBO OFICIAL DO EVENTO (IMPRESSÃO / PDF)        -->
+  <!-- ======================================================== -->
+  <div id="modal-receipt" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="receipt-title">
+    <div class="modal-card receipt-modal-card">
+      <div class="modal-header no-print">
+        <h3 id="receipt-title" class="modal-title">Comprovante Oficial de Lançamento</h3>
+        <button id="btn-close-receipt-modal" class="btn-icon" aria-label="Fechar">✕</button>
+      </div>
+
+      <!-- Documento Imprimível -->
+      <div id="printable-receipt-document" class="official-receipt">
+        <div class="receipt-header-row">
+          <div>
+            <h2 id="receipt-fair-name" class="receipt-event-title">Feira do Bairro</h2>
+            <p id="receipt-fair-edition" class="receipt-event-sub">Edição 2026 • Gestão Financeira Oficial</p>
+          </div>
+          <div class="text-right">
+            <span id="receipt-code" class="receipt-id-tag">#REC-000000</span>
+            <div id="receipt-type-badge" class="receipt-badge income">COMPROVANTE DE RECEBIMENTO</div>
+          </div>
+        </div>
+
+        <div class="receipt-divider"></div>
+
+        <div class="receipt-highlight-value-box">
+          <span class="receipt-val-label">VALOR TOTAL DO LANÇAMENTO</span>
+          <span id="receipt-amount" class="receipt-val-amount font-display">R$ 0,00</span>
+          <span id="receipt-words" class="receipt-val-words">Zero reais</span>
+        </div>
+
+        <div class="receipt-details-table">
+          <div class="receipt-line">
+            <span class="r-line-label">Descrição:</span>
+            <strong id="receipt-description" class="r-line-val">-</strong>
+          </div>
+          <div class="receipt-line">
+            <span class="r-line-label">Categoria do Evento:</span>
+            <span id="receipt-category" class="r-line-val">-</span>
+          </div>
+          <div class="receipt-line">
+            <span class="r-line-label">Forma de Pagamento:</span>
+            <span id="receipt-payment" class="r-line-val">-</span>
+          </div>
+          <div class="receipt-line">
+            <span class="r-line-label">Titular / Favorecido:</span>
+            <span id="receipt-person" class="r-line-val">-</span>
+          </div>
+          <div class="receipt-line">
+            <span class="r-line-label">Data da Operação:</span>
+            <span id="receipt-date" class="r-line-val font-display">-</span>
+          </div>
+          <div class="receipt-line">
+            <span class="r-line-label">Notas Adicionais:</span>
+            <span id="receipt-notes" class="r-line-val text-muted">-</span>
+          </div>
+        </div>
+
+        <div class="receipt-divider"></div>
+
+        <div class="receipt-footer-row">
+          <div class="receipt-auth-box">
+            <span class="auth-label">Autenticação Digital:</span>
+            <span id="receipt-hash" class="auth-hash font-display">AUT-0000-0000</span>
+            <span class="auth-note">Documento emitido eletronicamente pelo FeiraFinance</span>
+          </div>
+          <div class="receipt-signature-box">
+            <div class="sig-line"></div>
+            <span class="sig-label">Tesouraria / Coordenação do Evento</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer no-print">
+        <button id="btn-print-receipt-action" class="btn btn-primary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+          <span>Imprimir / Salvar PDF</span>
+        </button>
+        <button id="btn-dismiss-receipt" class="btn btn-secondary">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ======================================================== -->
+  <!-- MODAL: CONFIRMAÇÃO DE EXCLUSÃO ÚNICA                    -->
+  <!-- ======================================================== -->
+  <div id="modal-delete-confirm" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="modal-delete-title">
+    <div class="modal-card modal-sm">
+      <div class="modal-header">
+        <h3 id="modal-delete-title" class="modal-title text-danger">Confirmar Exclusão</h3>
+        <button id="btn-close-delete-modal" class="btn-icon" aria-label="Fechar">✕</button>
+      </div>
+      <div class="modal-body-p">
+        <p>Tem certeza de que deseja excluir o lançamento:</p>
+        <div id="delete-tx-preview" class="delete-preview-box">
+          <strong id="delete-tx-desc">-</strong>
+          <span id="delete-tx-val">-</span>
+        </div>
+        <p class="text-muted text-sm">Esta ação não poderá ser desfeita.</p>
+      </div>
+      <div class="modal-footer">
+        <button id="btn-cancel-delete" class="btn btn-secondary">Cancelar</button>
+        <button id="btn-confirm-delete" class="btn btn-danger">Excluir Registro</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ======================================================== -->
+  <!-- MODAL: CONFIRMAÇÃO DE EXCLUSÃO EM LOTE                  -->
+  <!-- ======================================================== -->
+  <div id="modal-batch-delete-confirm" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="modal-batch-delete-title">
+    <div class="modal-card modal-sm">
+      <div class="modal-header">
+        <h3 id="modal-batch-delete-title" class="modal-title text-danger">Exclusão em Lote</h3>
+        <button id="btn-close-batch-modal" class="btn-icon" aria-label="Fechar">✕</button>
+      </div>
+      <div class="modal-body-p">
+        <p>Você selecionou <strong id="batch-delete-count-display">0</strong> lançamentos para exclusão definitiva.</p>
+        <p class="text-muted text-sm">Todos os registros marcados serão removidos permanentemente.</p>
+      </div>
+      <div class="modal-footer">
+        <button id="btn-cancel-batch-delete" class="btn btn-secondary">Cancelar</button>
+        <button id="btn-confirm-batch-delete" class="btn btn-danger">Excluir Todos Selecionados</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ======================================================== -->
+  <!-- MODAL: CONFIRMAÇÃO DE RESET TOTAL                       -->
+  <!-- ======================================================== -->
+  <div id="modal-reset-all-confirm" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="modal-reset-title">
+    <div class="modal-card modal-sm">
+      <div class="modal-header">
+        <h3 id="modal-reset-title" class="modal-title text-danger">Apagar Todo o Sistema</h3>
+        <button id="btn-close-reset-modal" class="btn-icon" aria-label="Fechar">✕</button>
+      </div>
+      <div class="modal-body-p">
+        <p>Esta operação apagará todos os lançamentos e estandes cadastrados.</p>
+        <p class="text-sm">Para confirmar, digite <strong>APAGAR</strong> no campo abaixo:</p>
+        <input type="text" id="input-confirm-reset-keyword" class="form-input mt-2" placeholder="Digite APAGAR" />
+      </div>
+      <div class="modal-footer">
+        <button id="btn-cancel-reset" class="btn btn-secondary">Cancelar</button>
+        <button id="btn-confirm-reset-all" class="btn btn-danger" disabled>Confirmar e Apagar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating Canvas Chart Tooltip -->
+  <div id="chart-tooltip" class="chart-tooltip hidden" aria-hidden="true"></div>
+
+  <!-- Toast Notifications Container -->
+  <div id="toasts-container" class="toasts-container" role="status" aria-live="polite"></div>
+
+  <!-- Main ES Module Application Script -->
+  <script type="module" src="/js/app.js"></script>
+</body>
+</html>

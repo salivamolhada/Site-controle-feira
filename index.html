@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR" data-theme="dark">
+<html lang="pt-BR" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,19 +10,16 @@
   <meta property="og:type" content="website" />
   <meta name="twitter:card" content="summary_large_image" />
 
-  <!-- Google Fonts: Inter & Space Grotesk -->
+  <!-- Google Fonts: Plus Jakarta Sans (Headings/Metrics) & Inter (Body) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
 
   <!-- Pure CSS Arquitetura -->
   <link rel="stylesheet" href="/css/styles.css" />
   <link rel="stylesheet" href="/css/components.css" />
 </head>
 <body>
-  <!-- Ambient Background Glow -->
-  <div class="ambient-glow" aria-hidden="true"></div>
-
   <!-- App Layout Container -->
   <div class="app-layout">
     
@@ -129,6 +126,12 @@
         </div>
 
         <div class="header-actions">
+          <!-- Cloud Database Sync Badge -->
+          <div id="cloud-sync-badge" class="cloud-sync-badge" title="Banco de dados Google Cloud Firestore">
+            <span class="cloud-sync-dot"></span>
+            <span id="cloud-sync-text">Firestore Conectado</span>
+          </div>
+
           <!-- Audio Feedback Toggle Button -->
           <button id="btn-audio-toggle" class="btn-icon" aria-label="Alternar som de confirmação" title="Alternar som">
             <svg id="icon-sound-on" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -160,6 +163,31 @@
               <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
             </svg>
           </button>
+
+          <!-- User Auth Button / Profile Status -->
+          <div class="user-auth-wrapper">
+            <button id="btn-open-auth-modal" class="btn btn-secondary btn-sm user-login-btn" title="Entrar ou criar conta">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+              <span>Entrar</span>
+            </button>
+            <div id="user-logged-box" class="user-logged-box hidden">
+              <div id="user-avatar-circle" class="user-avatar-circle">U</div>
+              <div class="user-text-info">
+                <span id="user-name-display" class="user-name-display">Usuário</span>
+                <span id="user-role-display" class="user-role-display">Gerente</span>
+              </div>
+              <button id="btn-user-logout" class="btn-user-logout" title="Desconectar da conta" aria-label="Desconectar">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                  <polyline points="16 17 21 12 16 7"></polyline>
+                  <line x1="21" y1="12" x2="9" y2="12"></line>
+                </svg>
+              </button>
+            </div>
+          </div>
 
           <!-- Primary Action Button: Novo Lançamento -->
           <button id="btn-open-new-transaction" class="btn btn-primary" title="Atalho: tecla N">
@@ -202,7 +230,7 @@
 
           <!-- Quick Action Launchpad (1-Clique) -->
           <div class="quick-launchpad">
-            <span class="quick-launchpad-label">⚡ Lançamento Rápido:</span>
+            <span class="quick-launchpad-label">Lançamento Rápido:</span>
             <div class="quick-pills-list">
               <button class="quick-pill income" data-quick-desc="Aluguel Estande" data-quick-cat="Aluguel de Estande" data-quick-type="income">+ Estande</button>
               <button class="quick-pill income" data-quick-desc="Venda Ingressos Portaria" data-quick-cat="Venda de Ingressos" data-quick-type="income">+ Ingressos</button>
@@ -1299,6 +1327,140 @@
         <button id="btn-cancel-reset" class="btn btn-secondary">Cancelar</button>
         <button id="btn-confirm-reset-all" class="btn btn-danger" disabled>Confirmar e Apagar</button>
       </div>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MODAL: AUTENTICAÇÃO E LOGIN NA NUVEM (FIRESTORE)         -->
+  <!-- ======================================================== -->
+  <div id="modal-auth" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="auth-modal-title">
+    <div class="modal-card auth-modal-card">
+      <div class="modal-header">
+        <div class="auth-modal-header-branding">
+          <div class="auth-header-icon-badge">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              <polyline points="9 12 11 14 15 10"></polyline>
+            </svg>
+          </div>
+          <div>
+            <h3 id="auth-modal-title" class="modal-title">Acesso ao FeiraFinance Pro</h3>
+            <p class="auth-modal-subtitle">Sincronização em Nuvem (Google Firestore) & Multi-Usuário</p>
+          </div>
+        </div>
+        <button id="btn-close-auth-modal" class="btn-icon" aria-label="Fechar modal de autenticação">✕</button>
+      </div>
+
+      <!-- Segmented Auth Tabs -->
+      <div class="auth-tab-nav" role="tablist">
+        <button id="btn-auth-tab-login" class="auth-tab-btn active" role="tab" aria-selected="true" type="button">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" y1="12" x2="3" y2="12"></line></svg>
+          <span>Entrar</span>
+        </button>
+        <button id="btn-auth-tab-register" class="auth-tab-btn" role="tab" aria-selected="false" type="button">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
+          <span>Criar Conta</span>
+        </button>
+      </div>
+
+      <!-- Alert Banners -->
+      <div id="auth-error-banner" class="auth-feedback-banner error hidden" role="alert">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+        <span id="auth-error-text">Ocorreu um erro ao autenticar.</span>
+      </div>
+
+      <div id="auth-success-banner" class="auth-feedback-banner success hidden" role="status">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+        <span id="auth-success-text">Operação concluída com sucesso!</span>
+      </div>
+
+      <!-- Form 1: Login Form -->
+      <form id="form-auth-login" class="auth-form" novalidate>
+        <div class="form-group">
+          <label for="login-email" class="form-label">E-mail de Acesso <span class="required">*</span></label>
+          <div class="auth-input-wrapper">
+            <svg class="auth-field-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            <input type="email" id="login-email" class="form-input with-icon" placeholder="seu.email@feira.com" autocomplete="email" required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="form-label-row">
+            <label for="login-password" class="form-label">Senha <span class="required">*</span></label>
+          </div>
+          <div class="auth-input-wrapper">
+            <svg class="auth-field-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            <input type="password" id="login-password" class="form-input with-icon" placeholder="••••••••" autocomplete="current-password" required />
+          </div>
+        </div>
+
+        <button type="submit" id="btn-submit-login" class="btn btn-primary w-full btn-lg mt-3">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" y1="12" x2="3" y2="12"></line></svg>
+          <span>Entrar no Sistema</span>
+        </button>
+      </form>
+
+      <!-- Form 2: Register Form -->
+      <form id="form-auth-register" class="auth-form hidden" novalidate>
+        <div class="form-group">
+          <label for="reg-name" class="form-label">Nome Completo / Razão Social <span class="required">*</span></label>
+          <div class="auth-input-wrapper">
+            <svg class="auth-field-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            <input type="text" id="reg-name" class="form-input with-icon" placeholder="Ex.: Ana Silva ou Artesanato Viva" autocomplete="name" required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="reg-email" class="form-label">E-mail Profissional <span class="required">*</span></label>
+          <div class="auth-input-wrapper">
+            <svg class="auth-field-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            <input type="email" id="reg-email" class="form-input with-icon" placeholder="seu.email@feira.com" autocomplete="email" required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="reg-password" class="form-label">Senha (mínimo 6 caracteres) <span class="required">*</span></label>
+          <div class="auth-input-wrapper">
+            <svg class="auth-field-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            <input type="password" id="reg-password" class="form-input with-icon" minlength="6" placeholder="Pelo menos 6 caracteres" autocomplete="new-password" required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="reg-role" class="form-label">Função / Perfil no Evento</label>
+          <div class="select-wrapper">
+            <select id="reg-role" class="form-select">
+              <option value="Administrador Geral">Administrador Geral</option>
+              <option value="Coordenador Financeiro" selected>Coordenador Financeiro</option>
+              <option value="Tesoureiro">Tesoureiro do Evento</option>
+              <option value="Gestor de Estandes">Gestor de Estandes & Setores</option>
+              <option value="Expositor">Expositor / Feirante Parceiro</option>
+            </select>
+          </div>
+        </div>
+
+        <button type="submit" id="btn-submit-register" class="btn btn-primary w-full btn-lg mt-3">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
+          <span>Criar Minha Conta & Conectar</span>
+        </button>
+      </form>
+
+      <!-- Instant Guest / Demo Login Divider -->
+      <div class="auth-divider">
+        <span>ou acesse instantaneamente</span>
+      </div>
+
+      <div class="auth-guest-section">
+        <button type="button" id="btn-guest-login" class="btn btn-guest w-full" title="Acesse como visitante ou administrador demo sem precisar digitar senha">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+          <span>Acesso Rápido de Demonstração / Convidado</span>
+        </button>
+        <p class="auth-cloud-note">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path></svg>
+          Sincronização instantânea na nuvem com Firestore
+        </p>
+      </div>
+
     </div>
   </div>
 

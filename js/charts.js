@@ -86,17 +86,17 @@ export function renderSparkline(canvasId, values, color = '#7c3aed') {
     y: padding + chartH - ((v - min) / range) * chartH
   }));
 
-  // Área translúcida com gradiente vertical
+  // Área translúcida com gradiente vertical suave
   const fillGrad = ctx.createLinearGradient(0, 0, 0, height);
   if (color.includes('10b981') || color.includes('green') || color.includes('income')) {
-    fillGrad.addColorStop(0, 'rgba(16, 185, 129, 0.35)');
-    fillGrad.addColorStop(1, 'rgba(16, 185, 129, 0.0)');
+    fillGrad.addColorStop(0, 'rgba(5, 150, 105, 0.12)');
+    fillGrad.addColorStop(1, 'rgba(5, 150, 105, 0.0)');
   } else if (color.includes('f43f5e') || color.includes('ef4444') || color.includes('expense')) {
-    fillGrad.addColorStop(0, 'rgba(244, 63, 94, 0.35)');
-    fillGrad.addColorStop(1, 'rgba(244, 63, 94, 0.0)');
+    fillGrad.addColorStop(0, 'rgba(220, 38, 38, 0.12)');
+    fillGrad.addColorStop(1, 'rgba(220, 38, 38, 0.0)');
   } else {
-    fillGrad.addColorStop(0, 'rgba(124, 58, 237, 0.35)');
-    fillGrad.addColorStop(1, 'rgba(124, 58, 237, 0.0)');
+    fillGrad.addColorStop(0, 'rgba(37, 99, 235, 0.12)');
+    fillGrad.addColorStop(1, 'rgba(37, 99, 235, 0.0)');
   }
 
   ctx.beginPath();
@@ -227,9 +227,8 @@ export function renderBalanceEvolutionChart(transactions) {
 
   // 3. Gradiente de Preenchimento
   const gradient = ctx.createLinearGradient(0, padding.top, 0, height - padding.bottom);
-  gradient.addColorStop(0, 'rgba(124, 58, 237, 0.45)');
-  gradient.addColorStop(0.5, 'rgba(6, 182, 212, 0.2)');
-  gradient.addColorStop(1, 'rgba(16, 185, 129, 0.0)');
+  gradient.addColorStop(0, 'rgba(37, 99, 235, 0.12)');
+  gradient.addColorStop(1, 'rgba(37, 99, 235, 0.0)');
 
   ctx.beginPath();
   ctx.moveTo(balancePoints[0].x, height - padding.bottom);
@@ -239,29 +238,24 @@ export function renderBalanceEvolutionChart(transactions) {
   ctx.fillStyle = gradient;
   ctx.fill();
 
-  // 4. Linha do Saldo com Gradiente Multi-Cor
-  const strokeGrad = ctx.createLinearGradient(padding.left, 0, width - padding.right, 0);
-  strokeGrad.addColorStop(0, '#7c3aed');
-  strokeGrad.addColorStop(0.5, '#06b6d4');
-  strokeGrad.addColorStop(1, '#10b981');
-
+  // 4. Linha do Saldo Corporativa e Nítida
   ctx.beginPath();
   balancePoints.forEach((p, idx) => {
     if (idx === 0) ctx.moveTo(p.x, p.y);
     else ctx.lineTo(p.x, p.y);
   });
-  ctx.strokeStyle = strokeGrad;
-  ctx.lineWidth = 3.5;
+  ctx.strokeStyle = '#2563eb';
+  ctx.lineWidth = 2.2;
   ctx.stroke();
 
-  // 5. Pontos com halo
+  // 5. Pontos discretos
   balancePoints.forEach(p => {
     ctx.beginPath();
-    ctx.arc(p.x, p.y, 4.5, 0, Math.PI * 2);
-    ctx.fillStyle = '#10b981';
+    ctx.arc(p.x, p.y, 3.5, 0, Math.PI * 2);
+    ctx.fillStyle = '#2563eb';
     ctx.fill();
-    ctx.strokeStyle = isDark ? '#0b0f19' : '#ffffff';
-    ctx.lineWidth = 2.5;
+    ctx.strokeStyle = isDark ? '#131a2e' : '#ffffff';
+    ctx.lineWidth = 2;
     ctx.stroke();
   });
 
@@ -571,7 +565,7 @@ export function renderCategoryDonutChart(transactions, type = 'expense') {
   ctx.fillText('TOTAL', centerX, centerY - 10);
 
   ctx.fillStyle = isDark ? '#ffffff' : '#0f172a';
-  ctx.font = 'bold 13px "Space Grotesk", sans-serif';
+  ctx.font = 'bold 13px "Plus Jakarta Sans", -apple-system, sans-serif';
   ctx.fillText(formatBRL(totalAmount), centerX, centerY + 8);
 
   if (legendEl) {

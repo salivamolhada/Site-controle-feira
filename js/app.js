@@ -28,6 +28,17 @@ import {
   renderBoothsView,
   openBoothModal
 } from './booths.js';
+import {
+  loginUser,
+  registerUser,
+  loginAsGuest,
+  logoutUser,
+  onAuthChanged,
+  subscribeTransactions,
+  subscribeBooths,
+  subscribeSettings,
+  seedDemoDataToFirestore
+} from './firebase.js';
 
 // Estado global da aplicação
 let currentTab = 'dashboard';
@@ -46,6 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initReportsModule();
   initSettingsModule();
   initGlobalShortcuts();
+  initAuthAndCloudSync();
 
   // Carrega opções de categorias nos filtros
   updateCategoryFilterOptions();
@@ -77,8 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
    -------------------------------------------------------- */
 function initTheme() {
   const savedTheme = Storage.getTheme();
-  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-  const initialTheme = savedTheme || (prefersDark ? 'dark' : 'light');
+  const initialTheme = savedTheme || 'light';
 
   applyTheme(initialTheme);
 
@@ -782,3 +793,302 @@ function initGlobalShortcuts() {
     }
   });
 }
+
+/* --------------------------------------------------------
+   7. AUTENTICAÇÃO E SINCRONIZAÇÃO EM NUVEM (FIRESTORE)
+   -------------------------------------------------------- */
+function initAuthAndCloudSync() {
+  const btnOpenAuth = document.getElementById('btn-open-auth-modal');
+  const btnCloseAuth = document.getElementById('btn-close-auth-modal');
+  const btnTabLogin = document.getElementById('btn-auth-tab-login');
+  const btnTabReg = document.getElementById('btn-auth-tab-register');
+  const formLogin = document.getElementById('form-auth-login');
+  const formReg = document.getElementById('form-auth-register');
+  const errorBanner = document.getElementById('auth-error-banner');
+  const errorText = document.getElementById('auth-error-text');
+  const successBanner = document.getElementById('auth-success-banner');
+  const successText = document.getElementById('auth-success-text');
+  const btnGuest = document.getElementById('btn-guest-login');
+
+  const userLoggedBox = document.getElementById('user-logged-box');
+  const userAvatar = document.getElementById('user-avatar-circle');
+  const userName = document.getElementById('user-name-display');
+  const userRole = document.getElementById('user-role-display');
+  const btnLogout = document.getElementById('btn-user-logout');
+  const cloudSyncBadge = document.getElementById('cloud-sync-badge');
+  const cloudSyncText = document.getElementById('cloud-sync-text');
+
+  let unsubTx = null;
+  let unsubBooths = null;
+  let unsubSettings = null;
+
+  function showAuthError(msg) {
+    if (errorText) errorText.textContent = msg || 'Ocorreu um erro na autenticação.';
+    if (errorBanner) errorBanner.classList.remove('hidden');
+    if (successBanner) successBanner.classList.add('hidden');
+  }
+
+  function showAuthSuccess(msg) {
+    if (successText) successText.textContent = msg || 'Operação realizada com sucesso!';
+    if (successBanner) successBanner.classList.remove('hidden');
+    if (errorBanner) errorBanner.classList.add('hidden');
+  }
+
+  function clearAuthFeedback() {
+    if (errorBanner) errorBanner.classList.add('hidden');
+    if (successBanner) successBanner.classList.add('hidden');
+  }
+
+  // Abertura do Modal de Login
+  if (btnOpenAuth) {
+    btnOpenAuth.addEventListener('click', () => {
+      clearAuthFeedback();
+      openModal('modal-auth');
+    });
+  }
+
+  if (btnCloseAuth) {
+    btnCloseAuth.addEventListener('click', () => {
+      closeModal('modal-auth');
+    });
+  }
+
+  // Alternância entre abas Entrar e Criar Conta
+  if (btnTabLogin && btnTabReg && formLogin && formReg) {
+    btnTabLogin.addEventListener('click', () => {
+      btnTabLogin.classList.add('active');
+      btnTabLogin.setAttribute('aria-selected', 'true');
+      btnTabReg.classList.remove('active');
+      btnTabReg.setAttribute('aria-selected', 'false');
+      formLogin.classList.remove('hidden');
+      formReg.classList.add('hidden');
+      clearAuthFeedback();
+    });
+
+    btnTabReg.addEventListener('click', () => {
+      btnTabReg.classList.add('active');
+      btnTabReg.setAttribute('aria-selected', 'true');
+      btnTabLogin.classList.remove('active');
+      btnTabLogin.setAttribute('aria-selected', 'false');
+      formReg.classList.remove('hidden');
+      formLogin.classList.add('hidden');
+      clearAuthFeedback();
+    });
+  }
+
+  // Submissão do Formulário de Login
+  if (formLogin) {
+    formLogin.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      clearAuthFeedback();
+
+      const emailInput = document.getElementById('login-email');
+      const passwordInput = document.getElementById('login-password');
+      const submitBtn = document.getElementById('btn-submit-login');
+
+      const email = emailInput ? emailInput.value.trim() : '';
+      const password = passwordInput ? passwordInput.value : '';
+
+      if (!email || !password) {
+        showAuthError('Por favor, informe seu e-mail e senha.');
+        return;
+      }
+
+      const originalBtnText = submitBtn ? submitBtn.innerHTML : '';
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span>Verificando credenciais...</span>';
+      }
+
+      const res = await loginUser(email, password);
+
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalBtnText;
+      }
+
+      if (res.success) {
+        showAuthSuccess('Autenticado com sucesso! Carregando dados...');
+        showToast('Login Realizado', `Bem-vindo de volta! Sincronização em nuvem ativa.`, 'income');
+        setTimeout(() => {
+          closeModal('modal-auth');
+          if (emailInput) emailInput.value = '';
+          if (passwordInput) passwordInput.value = '';
+        }, 600);
+      } else {
+        showAuthError(res.error);
+      }
+    });
+  }
+
+  // Submissão do Formulário de Cadastro
+  if (formReg) {
+    formReg.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      clearAuthFeedback();
+
+      const nameInput = document.getElementById('reg-name');
+      const emailInput = document.getElementById('reg-email');
+      const passwordInput = document.getElementById('reg-password');
+      const roleInput = document.getElementById('reg-role');
+      const submitBtn = document.getElementById('btn-submit-register');
+
+      const name = nameInput ? nameInput.value.trim() : '';
+      const email = emailInput ? emailInput.value.trim() : '';
+      const password = passwordInput ? passwordInput.value : '';
+      const role = roleInput ? roleInput.value : 'Coordenador Financeiro';
+
+      if (!name || !email || !password) {
+        showAuthError('Preencha todos os campos obrigatórios.');
+        return;
+      }
+
+      if (password.length < 6) {
+        showAuthError('A senha precisa ter pelo menos 6 caracteres.');
+        return;
+      }
+
+      const originalBtnText = submitBtn ? submitBtn.innerHTML : '';
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span>Criando conta e provisionando...</span>';
+      }
+
+      const res = await registerUser(email, password, name);
+
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalBtnText;
+      }
+
+      if (res.success) {
+        showAuthSuccess('Conta criada e vinculada ao Firestore com sucesso!');
+        showToast('Conta Criada!', `Bem-vindo ao FeiraFinance Pro, ${name}!`, 'income');
+        setTimeout(() => {
+          closeModal('modal-auth');
+          if (nameInput) nameInput.value = '';
+          if (emailInput) emailInput.value = '';
+          if (passwordInput) passwordInput.value = '';
+        }, 700);
+      } else {
+        showAuthError(res.error);
+      }
+    });
+  }
+
+  // Acesso Rápido de Demonstração / Convidado
+  if (btnGuest) {
+    btnGuest.addEventListener('click', async () => {
+      clearAuthFeedback();
+      const originalText = btnGuest.innerHTML;
+      btnGuest.disabled = true;
+      btnGuest.innerHTML = '<span>Conectando ambiente de teste...</span>';
+
+      const res = await loginAsGuest();
+
+      btnGuest.disabled = false;
+      btnGuest.innerHTML = originalText;
+
+      if (res.success) {
+        showAuthSuccess('Acesso concedido em modo Convidado / Demonstração!');
+        showToast('Modo Demonstração', 'Você está conectado com acesso em nuvem.', 'info');
+        setTimeout(() => {
+          closeModal('modal-auth');
+        }, 500);
+      } else {
+        showAuthError(res.error);
+      }
+    });
+  }
+
+  // Logout
+  if (btnLogout) {
+    btnLogout.addEventListener('click', async () => {
+      const res = await logoutUser();
+      if (res.success) {
+        showToast('Desconectado', 'Sua sessão foi encerrada com segurança.', 'info');
+      }
+    });
+  }
+
+  // Observador de Estado de Autenticação Firebase & Conexão em Tempo Real
+  onAuthChanged((user) => {
+    if (user) {
+      // Usuário autenticado
+      if (btnOpenAuth) btnOpenAuth.classList.add('hidden');
+      if (userLoggedBox) userLoggedBox.classList.remove('hidden');
+
+      const rawName = user.displayName || (user.isAnonymous ? 'Convidado Demo' : (user.email ? user.email.split('@')[0] : 'Operador'));
+      const initial = rawName.charAt(0).toUpperCase();
+
+      if (userName) userName.textContent = rawName;
+      if (userAvatar) userAvatar.textContent = initial;
+      if (userRole) userRole.textContent = user.isAnonymous ? 'Convidado' : 'Coordenador';
+
+      if (cloudSyncBadge) {
+        cloudSyncBadge.classList.remove('syncing', 'error');
+        if (cloudSyncText) cloudSyncText.textContent = 'Firestore Online';
+      }
+
+      // Cancela listeners anteriores se houver
+      if (unsubTx) unsubTx();
+      if (unsubBooths) unsubBooths();
+      if (unsubSettings) unsubSettings();
+
+      // Inicia observadores em tempo real do Firestore
+      let initialTxsSyncDone = false;
+      unsubTx = subscribeTransactions((remoteTxs) => {
+        if (!initialTxsSyncDone && (!remoteTxs || remoteTxs.length === 0)) {
+          initialTxsSyncDone = true;
+          // Semeadura inicial com dados do evento se Firestore estiver vazio
+          const localTxs = Storage.getTransactions();
+          const localBooths = Storage.getBooths();
+          const localSettings = Storage.getSettings();
+          seedDemoDataToFirestore(localTxs, localBooths, localSettings);
+          return;
+        }
+
+        initialTxsSyncDone = true;
+        if (remoteTxs && remoteTxs.length > 0) {
+          Storage.saveTransactions(remoteTxs);
+          renderTransactionsTable();
+          if (currentTab === 'dashboard') {
+            updateDashboard();
+          }
+        }
+      });
+
+      unsubBooths = subscribeBooths((remoteBooths) => {
+        if (remoteBooths && remoteBooths.length > 0) {
+          Storage.saveBooths(remoteBooths);
+          renderBoothsView();
+          if (currentTab === 'dashboard') {
+            updateDashboard();
+          }
+        }
+      });
+
+      unsubSettings = subscribeSettings((remoteSettings) => {
+        if (remoteSettings && remoteSettings.fairName) {
+          Storage.saveSettings(remoteSettings);
+        }
+      });
+
+    } else {
+      // Usuário deslogado / anônimo desconectado
+      if (btnOpenAuth) btnOpenAuth.classList.remove('hidden');
+      if (userLoggedBox) userLoggedBox.classList.add('hidden');
+
+      if (cloudSyncBadge) {
+        cloudSyncBadge.classList.remove('syncing', 'error');
+        if (cloudSyncText) cloudSyncText.textContent = 'Firestore Conectado';
+      }
+
+      // Cancela listeners
+      if (unsubTx) unsubTx();
+      if (unsubBooths) unsubBooths();
+      if (unsubSettings) unsubSettings();
+    }
+  });
+}
+

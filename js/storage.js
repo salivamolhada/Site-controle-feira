@@ -1,7 +1,16 @@
 /**
  * FeiraFinance — Storage Layer
- * Camada de abstração e persistência em localStorage
+ * Camada de abstração e persistência em localStorage & Cloud Firestore
  */
+
+import {
+  saveTransactionToFirestore,
+  deleteTransactionFromFirestore,
+  deleteTransactionsBatchFromFirestore,
+  saveBoothToFirestore,
+  deleteBoothFromFirestore,
+  saveSettingsToFirestore
+} from './firebase.js';
 
 const STORAGE_KEYS = {
   TRANSACTIONS: 'feirafinance_transactions_v1',
@@ -472,6 +481,10 @@ export const Storage = {
     };
     list.unshift(newTx);
     this.saveTransactions(list);
+
+    // Salva no Cloud Firestore de forma assíncrona
+    saveTransactionToFirestore(newTx).catch(err => console.warn('[Storage] Sync Firestore falhou:', err));
+
     return newTx;
   },
 
@@ -491,6 +504,10 @@ export const Storage = {
     };
 
     this.saveTransactions(list);
+
+    // Salva atualização no Cloud Firestore
+    saveTransactionToFirestore(list[index]).catch(err => console.warn('[Storage] Sync Firestore falhou:', err));
+
     return list[index];
   },
 
@@ -498,6 +515,10 @@ export const Storage = {
     const list = this.getTransactions();
     const filtered = list.filter(item => item.id !== id);
     this.saveTransactions(filtered);
+
+    // Remove do Cloud Firestore
+    deleteTransactionFromFirestore(id).catch(err => console.warn('[Storage] Sync Firestore falhou:', err));
+
     return filtered.length < list.length;
   },
 
@@ -506,6 +527,10 @@ export const Storage = {
     const list = this.getTransactions();
     const filtered = list.filter(item => !set.has(item.id));
     this.saveTransactions(filtered);
+
+    // Remove em lote do Cloud Firestore
+    deleteTransactionsBatchFromFirestore(ids).catch(err => console.warn('[Storage] Sync Firestore falhou:', err));
+
     return list.length - filtered.length;
   },
 
@@ -539,6 +564,10 @@ export const Storage = {
     if (idx === -1) return null;
     booths[idx] = { ...booths[idx], ...data };
     this.saveBooths(booths);
+
+    // Atualiza estande no Cloud Firestore
+    saveBoothToFirestore(booths[idx]).catch(err => console.warn('[Storage] Sync Firestore estande falhou:', err));
+
     return booths[idx];
   },
 
@@ -557,6 +586,10 @@ export const Storage = {
     };
     booths.push(newB);
     this.saveBooths(booths);
+
+    // Salva estande no Cloud Firestore
+    saveBoothToFirestore(newB).catch(err => console.warn('[Storage] Sync Firestore estande falhou:', err));
+
     return newB;
   },
 
@@ -564,6 +597,10 @@ export const Storage = {
     const booths = this.getBooths();
     const filtered = booths.filter(b => b.id !== id);
     this.saveBooths(filtered);
+
+    // Remove estande no Cloud Firestore
+    deleteBoothFromFirestore(id).catch(err => console.warn('[Storage] Sync Firestore estande falhou:', err));
+
     return filtered.length < booths.length;
   },
 
@@ -584,6 +621,8 @@ export const Storage = {
   saveSettings(settings) {
     try {
       localStorage.setItem(STORAGE_KEYS.SETTINGS, JSON.stringify(settings));
+      // Salva no Cloud Firestore
+      saveSettingsToFirestore(settings).catch(err => console.warn('[Storage] Sync Firestore config falhou:', err));
       return true;
     } catch (e) {
       console.error('Erro ao salvar configurações:', e);

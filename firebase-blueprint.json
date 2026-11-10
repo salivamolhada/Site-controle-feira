@@ -1,0 +1,89 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "Perfil de usuário da feira comercial",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "ID de autenticação do usuário" },
+        "displayName": { "type": "string", "description": "Nome do usuário" },
+        "email": { "type": "string", "description": "E-mail do usuário" },
+        "role": { "type": "string", "enum": ["admin", "manager", "staff"], "description": "Função ou nível de acesso" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Data de criação da conta" }
+      },
+      "required": ["uid", "email"]
+    },
+    "Transaction": {
+      "title": "Transaction",
+      "description": "Lançamento financeiro de receita ou despesa",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Identificador único do lançamento" },
+        "uid": { "type": "string", "description": "UID do usuário criador" },
+        "type": { "type": "string", "enum": ["income", "expense"], "description": "Tipo de lançamento" },
+        "description": { "type": "string", "description": "Descrição do lançamento" },
+        "amount": { "type": "number", "description": "Valor monetário em reais" },
+        "category": { "type": "string", "description": "Categoria da transação" },
+        "paymentMethod": { "type": "string", "description": "Forma de pagamento" },
+        "responsible": { "type": "string", "description": "Pessoa ou expositor responsável" },
+        "date": { "type": "string", "description": "Data do lançamento" },
+        "notes": { "type": "string", "description": "Observações adicionais" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Timestamp de criação" }
+      },
+      "required": ["type", "description", "amount", "date", "category"]
+    },
+    "Booth": {
+      "title": "Booth",
+      "description": "Cadastro e controle de estande/espaço comercial",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Identificador do estande" },
+        "uid": { "type": "string", "description": "UID do criador" },
+        "number": { "type": "string", "description": "Número ou código do estande" },
+        "exhibitor": { "type": "string", "description": "Nome do expositor ou empresa" },
+        "sector": { "type": "string", "description": "Setor comercial do evento" },
+        "price": { "type": "number", "description": "Preço total da locação" },
+        "paidAmount": { "type": "number", "description": "Valor já quitado" },
+        "status": { "type": "string", "enum": ["paid", "partial", "pending"], "description": "Status de pagamento" },
+        "contact": { "type": "string", "description": "Telefone ou contato" },
+        "notes": { "type": "string", "description": "Observações do expositor" },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Última atualização" }
+      },
+      "required": ["number", "exhibitor", "sector", "price"]
+    },
+    "FairSettings": {
+      "title": "FairSettings",
+      "description": "Configurações gerais e metas da feira",
+      "type": "object",
+      "properties": {
+        "fairName": { "type": "string", "description": "Nome da feira" },
+        "edition": { "type": "string", "description": "Edição do evento" },
+        "revenueTarget": { "type": "number", "description": "Meta de arrecadação" },
+        "dateStart": { "type": "string", "description": "Data de início" },
+        "dateEnd": { "type": "string", "description": "Data de término" },
+        "location": { "type": "string", "description": "Localização ou pavilhão" },
+        "soundEnabled": { "type": "boolean", "description": "Feedback sonoro ativado" },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Data de atualização" }
+      },
+      "required": ["fairName"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "Perfis de usuários registrados"
+    },
+    "/transactions/{transactionId}": {
+      "schema": "Transaction",
+      "description": "Coleção de lançamentos financeiros"
+    },
+    "/booths/{boothId}": {
+      "schema": "Booth",
+      "description": "Coleção de estandes e expositores da feira"
+    },
+    "/settings/{settingId}": {
+      "schema": "FairSettings",
+      "description": "Parâmetros e configurações da feira"
+    }
+  }
+}

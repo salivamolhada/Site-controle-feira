@@ -121,7 +121,7 @@ export function updateDashboard() {
       <span>${isPos ? '+' : ''}${incPct.toFixed(0)}%</span>
     `;
   }
-  renderSparkline('sparkline-income', incomeSparkVals.slice(-10), '#10b981');
+  renderSparkline('sparkline-income', incomeSparkVals.slice(-10), '#059669');
 
   // Card 2: Total Pago
   const kpiExpenseEl = document.getElementById('kpi-total-expense');
@@ -144,7 +144,7 @@ export function updateDashboard() {
       <span>${isHigherExpense ? '+' : ''}${expPct.toFixed(0)}%</span>
     `;
   }
-  renderSparkline('sparkline-expense', expenseSparkVals.slice(-10), '#ef4444');
+  renderSparkline('sparkline-expense', expenseSparkVals.slice(-10), '#dc2626');
 
   // Card 3: Saldo Atual
   const kpiBalanceEl = document.getElementById('kpi-net-balance');
@@ -163,7 +163,7 @@ export function updateDashboard() {
       kpiBalanceStatus.textContent = 'Déficit';
     }
   }
-  renderSparkline('sparkline-balance', balanceSparkVals.slice(-10), '#6366f1');
+  renderSparkline('sparkline-balance', balanceSparkVals.slice(-10), '#2563eb');
 
   // Card 4: Margem de Lucro
   const kpiMarginEl = document.getElementById('kpi-margin-rate');
@@ -183,7 +183,7 @@ export function updateDashboard() {
   }
 
   // 4. Meta do Evento e Ponto de Equilíbrio (Break-Even)
-  const targetGoal = Number(settings.targetGoal) || 35000;
+  const targetGoal = Number(settings.revenueTarget || settings.targetGoal) || 35000;
   const goalPercent = Math.min(100, Math.round((totalIncome / targetGoal) * 100));
   const costCoverage = totalExpense > 0 ? Math.round((totalIncome / totalExpense) * 100) : 100;
 
@@ -199,12 +199,12 @@ export function updateDashboard() {
 
   if (breakEvenStatusEl) {
     if (totalIncome >= totalExpense) {
-      breakEvenStatusEl.textContent = `${costCoverage}% dos custos cobertos (Ponto de Equilíbrio Superado 🎉)`;
-      breakEvenStatusEl.className = 'text-income font-medium';
+      breakEvenStatusEl.textContent = `${costCoverage}% dos custos cobertos (Ponto de Equilíbrio Superado)`;
+      breakEvenStatusEl.className = 'break-even-val text-income';
     } else {
       const faltaCobrir = totalExpense - totalIncome;
       breakEvenStatusEl.textContent = `Faltam ${formatBRL(faltaCobrir)} para cobrir os custos operacionais da feira`;
-      breakEvenStatusEl.className = 'text-expense font-medium';
+      breakEvenStatusEl.className = 'break-even-val text-expense';
     }
   }
 

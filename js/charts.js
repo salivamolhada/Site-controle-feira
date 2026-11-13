@@ -6,10 +6,10 @@
 
 import { formatBRL, formatDate } from './ui.js';
 
-// Paleta vibrante para categorias de Donut
+// Paleta corporativa equilibrada para categorias de Donut
 const DONUT_COLORS = [
-  '#7c3aed', '#10b981', '#f59e0b', '#ec4899', '#06b6d4',
-  '#ff6b35', '#8b5cf6', '#14b8a6', '#f43f5e', '#3b82f6', '#eab308'
+  '#2563eb', '#059669', '#d97706', '#0284c7', '#4f46e5',
+  '#0d9488', '#dc2626', '#64748b', '#7c3aed', '#16a34a', '#ca8a04'
 ];
 
 /**

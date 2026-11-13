@@ -142,8 +142,8 @@ function applyTheme(theme) {
    -------------------------------------------------------- */
 function initAudioControls() {
   const btnAudio = document.getElementById('btn-audio-toggle');
-  const iconOn = document.getElementById('icon-audio-on');
-  const iconOff = document.getElementById('icon-audio-off');
+  const iconOn = document.getElementById('icon-sound-on');
+  const iconOff = document.getElementById('icon-sound-off');
 
   const updateAudioUI = (enabled) => {
     if (iconOn) iconOn.classList.toggle('hidden', !enabled);
@@ -170,35 +170,14 @@ function initAudioControls() {
    3. BARRA DE ATALHOS RÁPIDOS (QUICK LAUNCHPAD)
    -------------------------------------------------------- */
 function initQuickLaunchpad() {
-  const quickIncome = document.getElementById('quick-btn-income');
-  const quickExpense = document.getElementById('quick-btn-expense');
-  const quickBooth = document.getElementById('quick-btn-booth');
-  const quickReceipt = document.getElementById('quick-btn-receipt');
-
-  if (quickIncome) {
-    quickIncome.addEventListener('click', () => openNewTransactionModal('income'));
-  }
-
-  if (quickExpense) {
-    quickExpense.addEventListener('click', () => openNewTransactionModal('expense'));
-  }
-
-  if (quickBooth) {
-    quickBooth.addEventListener('click', () => {
-      openBoothModal();
+  document.querySelectorAll('.quick-pill[data-quick-type]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const type = btn.getAttribute('data-quick-type') || 'income';
+      const description = btn.getAttribute('data-quick-desc') || '';
+      const category = btn.getAttribute('data-quick-cat') || '';
+      openNewTransactionModal(type, { description, category });
     });
-  }
-
-  if (quickReceipt) {
-    quickReceipt.addEventListener('click', () => {
-      const txs = Storage.getTransactions();
-      if (txs.length > 0) {
-        openReceiptModal(txs[0]);
-      } else {
-        showToast('Nenhum Lançamento', 'Cadastre ao menos um lançamento para emitir recibo.', 'info');
-      }
-    });
-  }
+  });
 }
 
 /* --------------------------------------------------------
@@ -613,7 +592,7 @@ function initSettingsModule() {
 
       const revenueTarget = targetVal && !isNaN(Number(targetVal)) ? Number(targetVal) : 35000;
 
-      Storage.saveSettings({ fairName, edition, revenueTarget, dateStart, dateEnd, location });
+      Storage.saveSettings({ fairName, edition, revenueTarget, targetGoal: revenueTarget, dateStart, dateEnd, location });
       showToast('Configurações Salvas', 'Informações e metas da feira atualizadas com sucesso.');
       updateDashboard();
     });
@@ -700,7 +679,7 @@ function loadSettingsView() {
 
   if (nameInput) nameInput.value = settings.fairName || '';
   if (editionInput) editionInput.value = settings.edition || '';
-  if (targetInput) targetInput.value = settings.revenueTarget || 35000;
+  if (targetInput) targetInput.value = settings.revenueTarget || settings.targetGoal || 35000;
   if (startInput) startInput.value = settings.dateStart || '';
   if (endInput) endInput.value = settings.dateEnd || '';
   if (locInput) locInput.value = settings.location || '';

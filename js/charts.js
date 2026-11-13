@@ -6,10 +6,10 @@
 
 import { formatBRL, formatDate } from './ui.js';
 
-// Paleta corporativa equilibrada para categorias de Donut
+// Paleta festiva e harmoniosa para categorias de Donut
 const DONUT_COLORS = [
-  '#2563eb', '#059669', '#d97706', '#0284c7', '#4f46e5',
-  '#0d9488', '#dc2626', '#64748b', '#7c3aed', '#16a34a', '#ca8a04'
+  '#c81e32', '#157a4f', '#d99014', '#1d6fa5', '#0f766e',
+  '#b45309', '#9f1239', '#4d7c0f', '#0369a1', '#16a34a', '#ca8a04'
 ];
 
 /**
@@ -88,15 +88,15 @@ export function renderSparkline(canvasId, values, color = '#7c3aed') {
 
   // Área translúcida com gradiente vertical suave
   const fillGrad = ctx.createLinearGradient(0, 0, 0, height);
-  if (color.includes('10b981') || color.includes('green') || color.includes('income')) {
-    fillGrad.addColorStop(0, 'rgba(5, 150, 105, 0.12)');
-    fillGrad.addColorStop(1, 'rgba(5, 150, 105, 0.0)');
-  } else if (color.includes('f43f5e') || color.includes('ef4444') || color.includes('expense')) {
-    fillGrad.addColorStop(0, 'rgba(220, 38, 38, 0.12)');
-    fillGrad.addColorStop(1, 'rgba(220, 38, 38, 0.0)');
+  if (color.includes('157a4f') || color.includes('10b981') || color.includes('059669') || color.includes('green') || color.includes('income')) {
+    fillGrad.addColorStop(0, 'rgba(21, 122, 79, 0.22)');
+    fillGrad.addColorStop(1, 'rgba(21, 122, 79, 0.0)');
+  } else if (color.includes('c81e32') || color.includes('f43f5e') || color.includes('ef4444') || color.includes('dc2626') || color.includes('expense')) {
+    fillGrad.addColorStop(0, 'rgba(200, 30, 50, 0.2)');
+    fillGrad.addColorStop(1, 'rgba(200, 30, 50, 0.0)');
   } else {
-    fillGrad.addColorStop(0, 'rgba(37, 99, 235, 0.12)');
-    fillGrad.addColorStop(1, 'rgba(37, 99, 235, 0.0)');
+    fillGrad.addColorStop(0, 'rgba(217, 144, 20, 0.22)');
+    fillGrad.addColorStop(1, 'rgba(217, 144, 20, 0.0)');
   }
 
   ctx.beginPath();
@@ -114,14 +114,15 @@ export function renderSparkline(canvasId, values, color = '#7c3aed') {
     else ctx.lineTo(p.x, p.y);
   });
   ctx.strokeStyle = color;
-  ctx.lineWidth = 2;
+  ctx.lineWidth = 2.2;
   ctx.stroke();
 
   // Ponto final com brilho
+  const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
   const last = pts[pts.length - 1];
   ctx.beginPath();
-  ctx.arc(last.x, last.y, 3, 0, Math.PI * 2);
-  ctx.fillStyle = '#ffffff';
+  ctx.arc(last.x, last.y, 3.2, 0, Math.PI * 2);
+  ctx.fillStyle = isDark ? '#122c21' : '#fbf5e9';
   ctx.fill();
   ctx.strokeStyle = color;
   ctx.lineWidth = 2;
@@ -147,8 +148,8 @@ export function renderBalanceEvolutionChart(transactions) {
   const sorted = [...transactions].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
   if (sorted.length === 0) {
-    ctx.fillStyle = '#64748b';
-    ctx.font = '13px Inter, sans-serif';
+    ctx.fillStyle = '#5e7a69';
+    ctx.font = '13px "Plus Jakarta Sans", sans-serif';
     ctx.textAlign = 'center';
     ctx.fillText('Nenhum dado financeiro para exibir no período.', width / 2, height / 2);
     return;
@@ -191,12 +192,13 @@ export function renderBalanceEvolutionChart(transactions) {
   const adjRange = maxVal - minVal;
 
   const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
-  const gridColor = isDark ? 'rgba(255, 255, 255, 0.07)' : 'rgba(0, 0, 0, 0.06)';
-  const textColor = isDark ? '#94a3b8' : '#64748b';
+  const gridColor = isDark ? 'rgba(253, 246, 231, 0.09)' : 'rgba(20, 61, 44, 0.08)';
+  const textColor = isDark ? '#b5cbbd' : '#4a6857';
+  const lineStroke = isDark ? '#fb7185' : '#c81e32';
 
   // 1. Grade e Eixo Y
   const gridSteps = 4;
-  ctx.font = '11px Inter, sans-serif';
+  ctx.font = '11px "Plus Jakarta Sans", sans-serif';
   ctx.textAlign = 'right';
   ctx.textBaseline = 'middle';
 
@@ -227,8 +229,8 @@ export function renderBalanceEvolutionChart(transactions) {
 
   // 3. Gradiente de Preenchimento
   const gradient = ctx.createLinearGradient(0, padding.top, 0, height - padding.bottom);
-  gradient.addColorStop(0, 'rgba(37, 99, 235, 0.12)');
-  gradient.addColorStop(1, 'rgba(37, 99, 235, 0.0)');
+  gradient.addColorStop(0, isDark ? 'rgba(251, 113, 133, 0.22)' : 'rgba(200, 30, 50, 0.16)');
+  gradient.addColorStop(1, 'rgba(200, 30, 50, 0.0)');
 
   ctx.beginPath();
   ctx.moveTo(balancePoints[0].x, height - padding.bottom);
@@ -238,23 +240,23 @@ export function renderBalanceEvolutionChart(transactions) {
   ctx.fillStyle = gradient;
   ctx.fill();
 
-  // 4. Linha do Saldo Corporativa e Nítida
+  // 4. Linha do Saldo Natalina e Nítida
   ctx.beginPath();
   balancePoints.forEach((p, idx) => {
     if (idx === 0) ctx.moveTo(p.x, p.y);
     else ctx.lineTo(p.x, p.y);
   });
-  ctx.strokeStyle = '#2563eb';
-  ctx.lineWidth = 2.2;
+  ctx.strokeStyle = lineStroke;
+  ctx.lineWidth = 2.6;
   ctx.stroke();
 
-  // 5. Pontos discretos
+  // 5. Pontos discretos 3D
   balancePoints.forEach(p => {
     ctx.beginPath();
-    ctx.arc(p.x, p.y, 3.5, 0, Math.PI * 2);
-    ctx.fillStyle = '#2563eb';
+    ctx.arc(p.x, p.y, 4, 0, Math.PI * 2);
+    ctx.fillStyle = lineStroke;
     ctx.fill();
-    ctx.strokeStyle = isDark ? '#131a2e' : '#ffffff';
+    ctx.strokeStyle = isDark ? '#122c21' : '#fbf5e9';
     ctx.lineWidth = 2;
     ctx.stroke();
   });
@@ -292,7 +294,7 @@ export function renderBalanceEvolutionChart(transactions) {
 
       if (closest) {
         showTooltip(e.clientX, e.clientY, `Posição em ${formatDate(closest.date)}`, [
-          { label: 'Saldo Acumulado', val: formatBRL(closest.balance), color: closest.balance >= 0 ? '#10b981' : '#ef4444' }
+          { label: 'Saldo Acumulado', val: formatBRL(closest.balance), color: closest.balance >= 0 ? '#157a4f' : '#c81e32' }
         ]);
       } else {
         hideTooltip();
@@ -320,8 +322,8 @@ export function renderMonthlyBarsChart(transactions) {
   ctx.clearRect(0, 0, width, height);
 
   if (transactions.length === 0) {
-    ctx.fillStyle = '#64748b';
-    ctx.font = '13px Inter, sans-serif';
+    ctx.fillStyle = '#5e7a69';
+    ctx.font = '13px "Plus Jakarta Sans", sans-serif';
     ctx.textAlign = 'center';
     ctx.fillText('Sem lançamentos para gerar o comparativo mensal.', width / 2, height / 2);
     return;
@@ -354,11 +356,11 @@ export function renderMonthlyBarsChart(transactions) {
   maxVal *= 1.15;
 
   const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
-  const gridColor = isDark ? 'rgba(255, 255, 255, 0.07)' : 'rgba(0, 0, 0, 0.06)';
-  const textColor = isDark ? '#94a3b8' : '#64748b';
+  const gridColor = isDark ? 'rgba(253, 246, 231, 0.09)' : 'rgba(20, 61, 44, 0.08)';
+  const textColor = isDark ? '#b5cbbd' : '#4a6857';
 
   const gridSteps = 4;
-  ctx.font = '11px Inter, sans-serif';
+  ctx.font = '11px "Plus Jakarta Sans", sans-serif';
   ctx.textAlign = 'right';
   ctx.textBaseline = 'middle';
 
@@ -398,16 +400,16 @@ export function renderMonthlyBarsChart(transactions) {
     const expenseY = padding.top + chartH - expenseH;
 
     const incGrad = ctx.createLinearGradient(0, incomeY, 0, incomeY + incomeH);
-    incGrad.addColorStop(0, '#34d399');
-    incGrad.addColorStop(1, '#059669');
+    incGrad.addColorStop(0, '#2eb87d');
+    incGrad.addColorStop(1, '#157a4f');
     ctx.fillStyle = incGrad;
-    drawRoundedTopBar(ctx, incomeX, incomeY, barWidth, incomeH, 6);
+    drawRoundedTopBar(ctx, incomeX, incomeY, barWidth, incomeH, 8);
 
     const expGrad = ctx.createLinearGradient(0, expenseY, 0, expenseY + expenseH);
-    expGrad.addColorStop(0, '#fb7185');
-    expGrad.addColorStop(1, '#e11d48');
+    expGrad.addColorStop(0, '#ee4258');
+    expGrad.addColorStop(1, '#c81e32');
     ctx.fillStyle = expGrad;
-    drawRoundedTopBar(ctx, expenseX, expenseY, barWidth, expenseH, 6);
+    drawRoundedTopBar(ctx, expenseX, expenseY, barWidth, expenseH, 8);
 
     const [yStr, mStr] = d.monthKey.split('-');
     const mName = monthNames[parseInt(mStr, 10) - 1] || mStr;
@@ -455,9 +457,9 @@ export function renderMonthlyBarsChart(transactions) {
       if (hovered) {
         const net = hovered.data.income - hovered.data.expense;
         showTooltip(e.clientX, e.clientY, hovered.monthLabel, [
-          { label: 'Receitas', val: formatBRL(hovered.data.income), color: '#10b981' },
-          { label: 'Despesas', val: formatBRL(hovered.data.expense), color: '#ef4444' },
-          { label: 'Resultado', val: formatBRL(net), color: net >= 0 ? '#10b981' : '#ef4444' }
+          { label: 'Receitas', val: formatBRL(hovered.data.income), color: '#157a4f' },
+          { label: 'Despesas', val: formatBRL(hovered.data.expense), color: '#c81e32' },
+          { label: 'Resultado', val: formatBRL(net), color: net >= 0 ? '#157a4f' : '#c81e32' }
         ]);
       } else {
         hideTooltip();
@@ -502,8 +504,8 @@ export function renderCategoryDonutChart(transactions, type = 'expense') {
   const filtered = transactions.filter(t => t.type === type);
   
   if (filtered.length === 0) {
-    ctx.fillStyle = '#64748b';
-    ctx.font = '12px Inter, sans-serif';
+    ctx.fillStyle = '#5e7a69';
+    ctx.font = '12px "Plus Jakarta Sans", sans-serif';
     ctx.textAlign = 'center';
     ctx.fillText(`Nenhum lançamento de ${type === 'income' ? 'receita' : 'despesa'}.`, width / 2, height / 2);
     if (legendEl) legendEl.innerHTML = '';
@@ -560,13 +562,13 @@ export function renderCategoryDonutChart(transactions, type = 'expense') {
   const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-  ctx.fillStyle = isDark ? '#94a3b8' : '#64748b';
-  ctx.font = '11px Inter, sans-serif';
+  ctx.fillStyle = isDark ? '#b5cbbd' : '#4a6857';
+  ctx.font = '600 11px "Plus Jakarta Sans", sans-serif';
   ctx.fillText('TOTAL', centerX, centerY - 10);
 
-  ctx.fillStyle = isDark ? '#ffffff' : '#0f172a';
-  ctx.font = 'bold 13px "Plus Jakarta Sans", -apple-system, sans-serif';
-  ctx.fillText(formatBRL(totalAmount), centerX, centerY + 8);
+  ctx.fillStyle = isDark ? '#fdf6e7' : '#14291f';
+  ctx.font = 'bold 13px "Fredoka", "Plus Jakarta Sans", sans-serif';
+  ctx.fillText(formatBRL(totalAmount), centerX, centerY + 9);
 
   if (legendEl) {
     legendEl.innerHTML = sortedCategories.map(item => `

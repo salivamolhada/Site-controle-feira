@@ -121,7 +121,7 @@ export function updateDashboard() {
       <span>${isPos ? '+' : ''}${incPct.toFixed(0)}%</span>
     `;
   }
-  renderSparkline('sparkline-income', incomeSparkVals.slice(-10), '#059669');
+  renderSparkline('sparkline-income', incomeSparkVals.slice(-10), '#157a4f');
 
   // Card 2: Total Pago
   const kpiExpenseEl = document.getElementById('kpi-total-expense');
@@ -144,7 +144,7 @@ export function updateDashboard() {
       <span>${isHigherExpense ? '+' : ''}${expPct.toFixed(0)}%</span>
     `;
   }
-  renderSparkline('sparkline-expense', expenseSparkVals.slice(-10), '#dc2626');
+  renderSparkline('sparkline-expense', expenseSparkVals.slice(-10), '#c81e32');
 
   // Card 3: Saldo Atual
   const kpiBalanceEl = document.getElementById('kpi-net-balance');
@@ -163,7 +163,7 @@ export function updateDashboard() {
       kpiBalanceStatus.textContent = 'Déficit';
     }
   }
-  renderSparkline('sparkline-balance', balanceSparkVals.slice(-10), '#2563eb');
+  renderSparkline('sparkline-balance', balanceSparkVals.slice(-10), '#d99014');
 
   // Card 4: Margem de Lucro
   const kpiMarginEl = document.getElementById('kpi-margin-rate');

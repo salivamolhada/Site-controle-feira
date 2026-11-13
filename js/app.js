@@ -39,6 +39,7 @@ import {
   subscribeSettings,
   seedDemoDataToFirestore
 } from './firebase.js';
+import { initChristmasSnow } from './snow.js';
 
 // Estado global da aplicação
 let currentTab = 'dashboard';
@@ -48,6 +49,7 @@ let currentTab = 'dashboard';
  */
 document.addEventListener('DOMContentLoaded', () => {
   initTheme();
+  initChristmasSnow();
   initAudioControls();
   initNavigation();
   initQuickLaunchpad();

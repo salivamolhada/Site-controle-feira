@@ -1,113 +1,152 @@
 /* ========================================================
-   FeiraFinance — Global Styles & Design System Tokens
-   Clean, Professional Corporate SaaS Design System
+   FeiraFinance — Global Styles & 3D Christmas Design System
+   Cozy 3D Claymorphic Winter & Christmas Palette
    ======================================================== */
 
 :root {
-  /* Color Palette - Executive Trustworthy Brand (Royal Indigo / Slate) */
-  --color-brand: #2563eb;
-  --color-brand-secondary: #1d4ed8;
-  --color-brand-hover: #1e40af;
-  --color-brand-subtle: rgba(37, 99, 235, 0.08);
-  --color-brand-border: rgba(37, 99, 235, 0.25);
+  /* Primary Festive Brand — Cranberry / Berry Christmas Red */
+  --color-brand: #c81e32;
+  --color-brand-secondary: #a61627;
+  --color-brand-hover: #b1182a;
+  --color-brand-lip: #7f101d;
+  --color-brand-subtle: rgba(200, 30, 50, 0.12);
+  --color-brand-border: rgba(200, 30, 50, 0.3);
 
-  /* Semantic Financial States - Crisp & Natural */
-  --color-income: #059669;
-  --color-income-hover: #047857;
-  --color-income-bg: #ecfdf5;
-  --color-income-border: #a7f3d0;
+  /* Complementary Festive Accents — Pine Green & Warm Gold */
+  --color-pine: #156144;
+  --color-pine-dark: #0e4430;
+  --color-gold: #d99014;
+  --color-gold-soft: #fef3c7;
 
-  --color-expense: #dc2626;
-  --color-expense-hover: #b91c1c;
-  --color-expense-bg: #fef2f2;
-  --color-expense-border: #fecaca;
+  /* Semantic Financial States */
+  --color-income: #157a4f;
+  --color-income-hover: #10603e;
+  --color-income-lip: #0c4b30;
+  --color-income-bg: #e3f5ec;
+  --color-income-border: #9fd8bd;
 
-  --color-warning: #d97706;
-  --color-warning-bg: #fffbeb;
-  --color-info: #0284c7;
-  --color-info-bg: #f0f9ff;
+  --color-expense: #c81e32;
+  --color-expense-hover: #a61627;
+  --color-expense-lip: #7f101d;
+  --color-expense-bg: #fdeaea;
+  --color-expense-border: #f5b7be;
 
-  /* Typography Pairing: Plus Jakarta Sans (Headings) + Inter (Prose) */
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-display: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --color-warning: #c27803;
+  --color-warning-bg: #fef4dd;
+  --color-info: #1d6fa5;
+  --color-info-bg: #e5f2fb;
 
-  /* Professional Subdued Shadows - No Neon Glows */
-  --shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.04);
-  --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
-  --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.07), 0 2px 4px -2px rgba(15, 23, 42, 0.04);
-  --shadow-lg: 0 10px 15px -3px rgba(15, 23, 42, 0.08), 0 4px 6px -4px rgba(15, 23, 42, 0.03);
-  --shadow-xl: 0 20px 25px -5px rgba(15, 23, 42, 0.1), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
+  /* Typography Pairing: Fredoka (Cute 3D Display) + Plus Jakarta Sans (Body) */
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-display: 'Fredoka', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
 
-  /* Radius & Transitions */
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 14px;
+  /* 3D Claymorphic Tactile Elevation */
+  --surface-gloss: rgba(255, 255, 255, 0.88);
+  --card-lip: #cfc3ae;
+  --btn-lip: #c7bba6;
+
+  --shadow-xs: 0 2px 0 rgba(28, 48, 37, 0.08), 0 3px 6px rgba(20, 44, 32, 0.06);
+  --shadow-sm: inset 0 2px 0 var(--surface-gloss), 0 5px 0 var(--card-lip), 0 10px 20px -4px rgba(18, 45, 32, 0.14);
+  --shadow-md: inset 0 2px 0 var(--surface-gloss), 0 6px 0 var(--card-lip), 0 14px 26px -4px rgba(18, 45, 32, 0.18);
+  --shadow-lg: inset 0 2px 0 var(--surface-gloss), 0 8px 0 var(--card-lip), 0 20px 34px -6px rgba(18, 45, 32, 0.22);
+  --shadow-xl: inset 0 2px 0 var(--surface-gloss), 0 10px 0 var(--card-lip), 0 26px 46px -8px rgba(12, 34, 24, 0.3);
+
+  /* Plush 3D Radii & Smooth Spring Transitions */
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
   --radius-full: 9999px;
-  --transition-fast: 140ms ease-out;
-  --transition-normal: 220ms ease-out;
+  --transition-fast: 150ms cubic-bezier(0.22, 1, 0.36, 1);
+  --transition-normal: 240ms cubic-bezier(0.22, 1, 0.36, 1);
 
-  /* Light Theme (Default - Crisp, Elegant & Trustworthy) */
-  --bg-body: #f8fafc;
-  --bg-sidebar: #ffffff;
-  --bg-surface: #ffffff;
-  --bg-surface-elevated: #f8fafc;
-  --bg-surface-hover: #f1f5f9;
-  --bg-surface-active: #e2e8f0;
+  /* Light Theme — "Vila de Natal" (Warm Winter Sage & Cream 3D, Zero Stark White) */
+  --bg-body: #d7e4dc;
+  --bg-body-accent: radial-gradient(circle at 20% 10%, rgba(254, 243, 199, 0.45) 0%, transparent 45%),
+                    radial-gradient(circle at 85% 20%, rgba(200, 30, 50, 0.08) 0%, transparent 42%),
+                    radial-gradient(circle at 60% 90%, rgba(21, 97, 68, 0.14) 0%, transparent 50%);
+  --bg-sidebar: linear-gradient(180deg, #153e2d 0%, #0d2b1f 100%);
+  --bg-header: #f5efe2;
+  --bg-surface: #fbf5e9;
+  --bg-surface-elevated: #f0e7d6;
+  --bg-surface-hover: #e8dcc8;
+  --bg-surface-active: #dfd0b8;
 
-  --border-subtle: #e2e8f0;
-  --border-medium: #cbd5e1;
-  --border-strong: #94a3b8;
+  --border-subtle: #ded3bf;
+  --border-medium: #cbbca4;
+  --border-strong: #b4a287;
 
-  --text-primary: #0f172a;
-  --text-secondary: #475569;
-  --text-tertiary: #64748b;
-  --text-muted: #94a3b8;
+  --text-primary: #1a2e23;
+  --text-secondary: #41594c;
+  --text-tertiary: #637a6d;
+  --text-muted: #8a9e93;
 
-  --input-bg: #ffffff;
-  --input-border: #cbd5e1;
+  --input-bg: #fffaf0;
+  --input-border: #cbbca4;
   --input-focus-border: var(--color-brand);
-  --input-focus-ring: rgba(37, 99, 235, 0.2);
+  --input-focus-ring: rgba(200, 30, 50, 0.18);
 
-  --modal-backdrop: rgba(15, 23, 42, 0.6);
+  --modal-backdrop: rgba(11, 31, 22, 0.65);
 }
 
-/* Dark Theme Variables (Clean, Calm Dark Slate - Never Cyberpunk) */
+/* Dark Theme — "Noite Natalina" (Deep Evergreen Pine & Candlelight Gold 3D) */
 [data-theme="dark"] {
-  --bg-body: #090d16;
-  --bg-sidebar: #0e1424;
-  --bg-surface: #131a2e;
-  --bg-surface-elevated: #1a233d;
-  --bg-surface-hover: #222d4d;
-  --bg-surface-active: #2b395f;
+  --bg-body: #081812;
+  --bg-body-accent: radial-gradient(circle at 25% 12%, rgba(217, 144, 20, 0.1) 0%, transparent 45%),
+                    radial-gradient(circle at 85% 20%, rgba(200, 30, 50, 0.1) 0%, transparent 45%),
+                    radial-gradient(circle at 50% 90%, rgba(21, 122, 79, 0.12) 0%, transparent 55%);
+  --bg-sidebar: linear-gradient(180deg, #0b2219 0%, #06150f 100%);
+  --bg-header: #0e241b;
+  --bg-surface: #122c21;
+  --bg-surface-elevated: #18382b;
+  --bg-surface-hover: #1f4636;
+  --bg-surface-active: #275542;
 
-  --border-subtle: #1e293b;
-  --border-medium: #334155;
-  --border-strong: #475569;
+  --surface-gloss: rgba(255, 248, 228, 0.09);
+  --card-lip: #06110c;
+  --btn-lip: #06110c;
 
-  --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
-  --text-tertiary: #64748b;
-  --text-muted: #475569;
+  --border-subtle: #1f4435;
+  --border-medium: #2c5a47;
+  --border-strong: #3d755e;
 
-  --color-income: #10b981;
-  --color-income-hover: #059669;
-  --color-income-bg: rgba(16, 185, 129, 0.12);
-  --color-income-border: rgba(16, 185, 129, 0.28);
+  --text-primary: #fdf6e7;
+  --text-secondary: #bfd6c9;
+  --text-tertiary: #8eab9c;
+  --text-muted: #658374;
 
-  --color-expense: #f43f5e;
-  --color-expense-hover: #e11d48;
-  --color-expense-bg: rgba(244, 63, 94, 0.12);
-  --color-expense-border: rgba(244, 63, 94, 0.28);
+  --color-brand: #e12d44;
+  --color-brand-hover: #c81e32;
+  --color-brand-lip: #8c1222;
+  --color-brand-subtle: rgba(225, 45, 68, 0.16);
+  --color-brand-border: rgba(225, 45, 68, 0.38);
 
-  --input-bg: #0c1220;
-  --input-border: #334155;
+  --color-income: #22c57e;
+  --color-income-hover: #16a364;
+  --color-income-lip: #0b5232;
+  --color-income-bg: rgba(34, 197, 126, 0.14);
+  --color-income-border: rgba(34, 197, 126, 0.34);
+
+  --color-expense: #fb586a;
+  --color-expense-hover: #e12d44;
+  --color-expense-lip: #8c1222;
+  --color-expense-bg: rgba(251, 88, 106, 0.14);
+  --color-expense-border: rgba(251, 88, 106, 0.34);
+
+  --color-warning: #f5b038;
+  --color-warning-bg: rgba(245, 176, 56, 0.14);
+  --color-info: #4fb3e8;
+  --color-info-bg: rgba(79, 179, 232, 0.14);
+
+  --input-bg: #0c1f17;
+  --input-border: #2c5a47;
   --input-focus-border: var(--color-brand);
-  --input-focus-ring: rgba(37, 99, 235, 0.3);
+  --input-focus-ring: rgba(225, 45, 68, 0.28);
 
-  --modal-backdrop: rgba(3, 7, 18, 0.82);
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.35);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.45);
+  --modal-backdrop: rgba(3, 12, 8, 0.82);
+  --shadow-xs: 0 2px 0 rgba(0, 0, 0, 0.35), 0 4px 10px rgba(0, 0, 0, 0.25);
+  --shadow-sm: inset 0 1px 0 var(--surface-gloss), 0 5px 0 var(--card-lip), 0 12px 24px rgba(0, 0, 0, 0.42);
+  --shadow-md: inset 0 1px 0 var(--surface-gloss), 0 6px 0 var(--card-lip), 0 16px 30px rgba(0, 0, 0, 0.5);
+  --shadow-lg: inset 0 1px 0 var(--surface-gloss), 0 8px 0 var(--card-lip), 0 22px 38px rgba(0, 0, 0, 0.58);
 }
 
 /* Base Reset & Core Styles */
@@ -128,6 +167,8 @@ html {
 body {
   font-family: var(--font-sans);
   background-color: var(--bg-body);
+  background-image: var(--bg-body-accent);
+  background-attachment: fixed;
   color: var(--text-primary);
   line-height: 1.5;
   min-height: 100vh;
@@ -135,25 +176,38 @@ body {
   transition: background-color var(--transition-normal), color var(--transition-normal);
 }
 
+/* Subtle 3D Snowfall Layer */
+.christmas-snow-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 1;
+}
+
 /* Tabular numbers for all monetary values */
 .font-display {
   font-family: var(--font-display);
   font-variant-numeric: tabular-nums;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.015em;
 }
 
 /* App Shell Layout */
 .app-layout {
+  position: relative;
+  z-index: 2;
   display: flex;
   min-height: 100vh;
   width: 100%;
 }
 
-/* Sidebar Styling */
+/* Sidebar Styling — Cozy Deep Christmas Pine 3D Panel */
 .sidebar {
   width: 260px;
-  background-color: var(--bg-sidebar);
-  border-right: 1px solid var(--border-subtle);
+  background: var(--bg-sidebar);
+  border-right: 1px solid rgba(253, 230, 138, 0.16);
+  box-shadow: 4px 0 24px rgba(7, 24, 17, 0.25);
   display: flex;
   flex-direction: column;
   position: fixed;
@@ -165,11 +219,11 @@ body {
 }
 
 .sidebar-header {
-  padding: 1.25rem 1.25rem 1rem;
+  padding: 1.25rem 1.25rem 1.05rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid var(--border-subtle);
+  border-bottom: 1px solid rgba(255, 248, 225, 0.12);
 }
 
 .brand {
@@ -179,21 +233,21 @@ body {
 }
 
 .brand-icon {
-  width: 38px;
-  height: 38px;
-  border-radius: var(--radius-md);
-  background: var(--color-brand);
-  color: #ffffff;
+  width: 42px;
+  height: 42px;
+  border-radius: 13px;
+  background: linear-gradient(145deg, #1d553f, #0f3324);
+  border: 1px solid rgba(253, 230, 138, 0.35);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
+  box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.2), 0 4px 0 #071e15, 0 8px 14px rgba(0, 0, 0, 0.3);
   flex-shrink: 0;
-  transition: opacity var(--transition-fast);
+  transition: transform var(--transition-fast);
 }
 
 .brand-icon:hover {
-  opacity: 0.92;
+  transform: translateY(-2px) rotate(-4deg);
 }
 
 .brand-info {
@@ -204,15 +258,15 @@ body {
 
 .brand-title {
   font-family: var(--font-display);
-  font-size: 1.05rem;
+  font-size: 1.08rem;
   font-weight: 700;
-  color: var(--text-primary);
+  color: #fdf8ed;
   letter-spacing: -0.01em;
 }
 
 .brand-subtitle {
   font-size: 0.75rem;
-  color: var(--text-tertiary);
+  color: #b7d3c3;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -221,8 +275,8 @@ body {
 .sidebar-nav {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
-  padding: 1rem 0.75rem;
+  gap: 0.4rem;
+  padding: 1rem 0.85rem;
   flex: 1;
 }
 
@@ -230,9 +284,9 @@ body {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  padding: 0.65rem 0.85rem;
+  padding: 0.7rem 0.9rem;
   border-radius: var(--radius-md);
-  color: var(--text-secondary);
+  color: #cfe3d7;
   font-size: 0.88rem;
   font-weight: 500;
   background: transparent;
@@ -244,52 +298,61 @@ body {
 }
 
 .nav-item:hover {
-  background-color: var(--bg-surface-hover);
-  color: var(--text-primary);
+  background-color: rgba(255, 250, 235, 0.09);
+  color: #ffffff;
+  transform: translateX(2px);
 }
 
 .nav-item.active {
-  background: var(--color-brand-subtle);
-  color: var(--color-brand);
-  border-color: var(--color-brand-border);
+  background: linear-gradient(180deg, #df2d44 0%, #ba1b2f 100%);
+  color: #ffffff;
+  border-color: rgba(255, 210, 215, 0.3);
   font-weight: 600;
+  box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.32), 0 4px 0 #7b0f1d, 0 8px 16px rgba(0, 0, 0, 0.28);
 }
 
 .nav-item.active svg {
-  color: var(--color-brand);
+  color: #fef3c7;
 }
 
 .nav-badge {
   margin-left: auto;
   font-size: 0.7rem;
-  padding: 0.1rem 0.45rem;
+  padding: 0.12rem 0.5rem;
   border-radius: var(--radius-full);
-  background-color: var(--bg-surface-elevated);
-  border: 1px solid var(--border-medium);
-  color: var(--text-secondary);
+  background-color: rgba(255, 250, 235, 0.14);
+  border: 1px solid rgba(255, 250, 235, 0.22);
+  color: #fdf8ed;
   font-variant-numeric: tabular-nums;
+}
+
+.nav-item.active .nav-badge {
+  background-color: rgba(255, 255, 255, 0.24);
+  border-color: rgba(255, 255, 255, 0.35);
 }
 
 .sidebar-footer {
   padding: 1rem 1rem 1.25rem;
-  border-top: 1px solid var(--border-subtle);
+  border-top: 1px solid rgba(255, 248, 225, 0.12);
 }
 
 .fair-status-card {
   display: flex;
   align-items: center;
   gap: 0.65rem;
-  padding: 0.65rem 0.75rem;
-  background-color: var(--bg-surface-elevated);
-  border: 1px solid var(--border-subtle);
+  padding: 0.7rem 0.85rem;
+  background: rgba(8, 27, 19, 0.65);
+  border: 1px solid rgba(253, 230, 138, 0.2);
   border-radius: var(--radius-md);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 3px 0 rgba(4, 15, 10, 0.65);
 }
 
 .fair-status-dot {
-  width: 8px;
-  height: 8px;
+  width: 9px;
+  height: 9px;
   border-radius: 50%;
-  background-color: var(--color-income);
+  background: radial-gradient(circle at 30% 30%, #86efac, #16a34a);
+  box-shadow: 0 0 8px rgba(74, 222, 128, 0.65);
   flex-shrink: 0;
 }
 
@@ -301,7 +364,7 @@ body {
 
 .fair-status-label {
   font-size: 0.68rem;
-  color: var(--text-tertiary);
+  color: #fde68a;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   font-weight: 600;
@@ -310,7 +373,7 @@ body {
 .fair-status-val {
   font-size: 0.78rem;
   font-weight: 500;
-  color: var(--text-primary);
+  color: #fdf8ed;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -323,22 +386,60 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  min-width: 0; /* Prevents flex children from breaking grid */
+  min-width: 0;
+}
+
+/* Festive Garland String Lights Trim */
+.christmas-garland {
+  height: 10px;
+  background: linear-gradient(90deg, #156144 0%, #c81e32 50%, #156144 100%);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 31;
+  box-shadow: 0 2px 6px rgba(15, 45, 32, 0.25);
+}
+
+.garland-bulb {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  transform: translateY(3px);
+  box-shadow: inset -1px -1px 2px rgba(0, 0, 0, 0.25), 0 2px 6px currentColor;
+  animation: twinkleBulb 2.8s ease-in-out infinite;
+}
+
+.garland-bulb.red { background: #ff4d63; color: #ff4d63; animation-delay: 0s; }
+.garland-bulb.gold { background: #fbbf24; color: #fbbf24; animation-delay: 0.7s; }
+.garland-bulb.green { background: #34d399; color: #34d399; animation-delay: 1.4s; }
+.garland-bulb.snow { background: #fff9eb; color: #fef3c7; animation-delay: 2.1s; }
+
+@keyframes twinkleBulb {
+  0%, 100% { opacity: 0.75; transform: translateY(3px) scale(0.95); }
+  50% { opacity: 1; transform: translateY(3px) scale(1.15); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .garland-bulb { animation: none; }
 }
 
 /* Application Header */
 .app-header {
   min-height: 74px;
   height: auto;
-  background-color: var(--bg-surface);
-  border-bottom: 1px solid var(--border-subtle);
+  background-color: var(--bg-header);
+  border-bottom: 2px solid var(--border-medium);
+  box-shadow: 0 4px 0 var(--card-lip), 0 10px 20px -6px rgba(18, 45, 32, 0.14);
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 0.75rem 1.5rem;
   padding: 0.85rem 1.75rem;
   position: sticky;
-  top: 0;
+  top: 10px;
   z-index: 30;
   flex-wrap: wrap;
 }
@@ -361,11 +462,11 @@ body {
 
 .page-title {
   font-family: var(--font-display);
-  font-size: 1.25rem;
+  font-size: 1.3rem;
   font-weight: 700;
   color: var(--text-primary);
   line-height: 1.25;
-  letter-spacing: -0.015em;
+  letter-spacing: -0.01em;
   margin: 0;
 }
 
@@ -389,9 +490,9 @@ body {
   align-items: center;
   justify-content: center;
   font-size: 0.68rem;
-  padding: 0.15rem 0.35rem;
-  border-radius: var(--radius-sm);
-  background: rgba(255, 255, 255, 0.2);
+  padding: 0.15rem 0.38rem;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.24);
   color: inherit;
   font-family: var(--font-sans);
   margin-left: 0.35rem;

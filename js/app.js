@@ -81,16 +81,18 @@ document.addEventListener('DOMContentLoaded', () => {
     renderActiveFilterChips();
   });
 
-  // Reajuste de gráficos ao redimensionar a janela
+  // Reajuste de gráficos ao redimensionar ou girar a tela no celular
   let resizeTimeout;
-  window.addEventListener('resize', () => {
+  const handleViewportResize = () => {
     clearTimeout(resizeTimeout);
     resizeTimeout = setTimeout(() => {
       if (currentTab === 'dashboard') {
         updateDashboard();
       }
     }, 150);
-  });
+  };
+  window.addEventListener('resize', handleViewportResize);
+  window.addEventListener('orientationchange', handleViewportResize);
 });
 
 /* --------------------------------------------------------
@@ -194,6 +196,8 @@ function initQuickLaunchpad() {
    -------------------------------------------------------- */
 function initNavigation() {
   const navButtons = document.querySelectorAll('.sidebar-nav .nav-item');
+  const mobileNavButtons = document.querySelectorAll('#mobile-bottom-nav .mobile-nav-btn[data-tab]');
+  const btnMobileMore = document.getElementById('btn-mobile-nav-more');
   const views = document.querySelectorAll('.app-view');
 
   const pageTitleEl = document.getElementById('page-title');
@@ -233,6 +237,14 @@ function initNavigation() {
       btn.classList.toggle('active', btn.getAttribute('data-tab') === tabName);
     });
 
+    const isDrawerOnlyTab = tabName === 'reports' || tabName === 'settings';
+    mobileNavButtons.forEach(btn => {
+      btn.classList.toggle('active', btn.getAttribute('data-tab') === tabName);
+    });
+    if (btnMobileMore) {
+      btnMobileMore.classList.toggle('active', isDrawerOnlyTab);
+    }
+
     views.forEach(view => {
       view.classList.toggle('active', view.id === `view-${tabName}`);
     });
@@ -244,6 +256,11 @@ function initNavigation() {
 
     // Fecha o menu lateral no mobile após trocar de aba
     closeMobileSidebar();
+
+    // Sobe ao topo ao trocar de aba no celular para evitar tela cortada no meio
+    if (window.innerWidth <= 1024) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
 
     // Dispara atualizações específicas por tela
     if (tabName === 'dashboard') {
@@ -263,6 +280,13 @@ function initNavigation() {
   };
 
   navButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const tab = btn.getAttribute('data-tab');
+      if (tab) switchTab(tab);
+    });
+  });
+
+  mobileNavButtons.forEach(btn => {
     btn.addEventListener('click', () => {
       const tab = btn.getAttribute('data-tab');
       if (tab) switchTab(tab);
@@ -298,6 +322,7 @@ function initNavigation() {
   };
 
   if (btnToggleSidebar) btnToggleSidebar.addEventListener('click', openMobileSidebar);
+  if (btnMobileMore) btnMobileMore.addEventListener('click', openMobileSidebar);
   if (btnCloseSidebar) btnCloseSidebar.addEventListener('click', closeMobileSidebar);
   if (backdrop) backdrop.addEventListener('click', closeMobileSidebar);
 

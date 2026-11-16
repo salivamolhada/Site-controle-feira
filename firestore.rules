@@ -2,43 +2,69 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    function isAuthenticated() {
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isSignedIn() {
       return request.auth != null;
     }
 
     function isOwner(userId) {
-      return isAuthenticated() && request.auth.uid == userId;
+      return isSignedIn() && request.auth.uid == userId;
     }
 
     function isValidId(id) {
-      return id is string && id.size() > 0 && id.size() <= 64 && id.matches('^[a-zA-Z0-9_\\-]+$');
+      return id is string && id.size() > 0 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
     }
 
-    // Users Collection
+    function isBootstrapAdmin() {
+      return isSignedIn() &&
+        request.auth.token.email == 'maioneseraimundo@gmail.com' &&
+        request.auth.token.email_verified == true;
+    }
+
+    function isAdmin() {
+      return isBootstrapAdmin() || (
+        isSignedIn() &&
+        exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin'
+      );
+    }
+
+    // Users Collection (PII & Role-Based Access)
     match /users/{userId} {
-      allow read: if isAuthenticated();
-      allow create, update: if isOwner(userId);
+      allow get: if isOwner(userId) || isAdmin();
+      allow list: if isAdmin();
+      allow create: if isOwner(userId) &&
+        request.resource.data.uid == request.auth.uid &&
+        (isBootstrapAdmin() || request.resource.data.role in ['manager', 'staff']);
+      allow update: if isAdmin() || (
+        isOwner(userId) &&
+        request.resource.data.uid == resource.data.uid &&
+        request.resource.data.role == resource.data.role
+      );
       allow delete: if false;
     }
 
     // Transactions Collection
     match /transactions/{transactionId} {
-      allow read: if isAuthenticated();
-      allow create: if isAuthenticated() && isValidId(transactionId);
-      allow update, delete: if isAuthenticated();
+      allow read: if isSignedIn();
+      allow create: if isSignedIn() && isValidId(transactionId);
+      allow update, delete: if isSignedIn();
     }
 
     // Booths Collection
     match /booths/{boothId} {
-      allow read: if isAuthenticated();
-      allow create: if isAuthenticated() && isValidId(boothId);
-      allow update, delete: if isAuthenticated();
+      allow read: if isSignedIn();
+      allow create: if isSignedIn() && isValidId(boothId);
+      allow update, delete: if isSignedIn();
     }
 
     // Settings Collection
     match /settings/{settingId} {
       allow read: if true;
-      allow write: if isAuthenticated();
+      allow write: if isSignedIn();
     }
   }
 }

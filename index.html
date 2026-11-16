@@ -104,6 +104,15 @@
           <span>Relatórios & Balanço</span>
         </button>
 
+        <button class="nav-item" data-tab="admin" id="tab-nav-admin">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            <path d="M9 12l2 2 4-4"></path>
+          </svg>
+          <span>Painel ADM</span>
+          <span id="nav-admin-badge" class="nav-badge hidden">ADM</span>
+        </button>
+
         <button class="nav-item" data-tab="settings" id="tab-nav-settings">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="3"></circle>
@@ -112,6 +121,18 @@
           <span>Configurações</span>
         </button>
       </nav>
+
+      <!-- Sidebar Festive Twinkling Lights -->
+      <div class="sidebar-lights" aria-hidden="true">
+        <span class="s-bulb red"></span>
+        <span class="s-bulb gold"></span>
+        <span class="s-bulb green"></span>
+        <span class="s-bulb blue"></span>
+        <span class="s-bulb warm"></span>
+        <span class="s-bulb red"></span>
+        <span class="s-bulb gold"></span>
+        <span class="s-bulb green"></span>
+      </div>
 
       <div class="sidebar-footer">
         <div class="fair-status-card">
@@ -127,20 +148,36 @@
     <!-- Main Content Area -->
     <div class="main-wrapper">
       
-      <!-- Festive String Lights Trim -->
+      <!-- Eye-Catching Draped Christmas Pisca-Pisca Lights -->
       <div class="christmas-garland" aria-hidden="true">
-        <span class="garland-bulb red"></span>
-        <span class="garland-bulb gold"></span>
-        <span class="garland-bulb green"></span>
-        <span class="garland-bulb snow"></span>
-        <span class="garland-bulb red"></span>
-        <span class="garland-bulb gold"></span>
-        <span class="garland-bulb green"></span>
-        <span class="garland-bulb snow"></span>
-        <span class="garland-bulb red"></span>
-        <span class="garland-bulb gold"></span>
-        <span class="garland-bulb green"></span>
-        <span class="garland-bulb snow"></span>
+        <svg class="garland-wire" viewBox="0 0 1200 22" preserveAspectRatio="none">
+          <path d="M0,4 Q75,20 150,4 T300,4 T450,4 T600,4 T750,4 T900,4 T1050,4 T1200,4" fill="none" stroke="#0d3826" stroke-width="3.2" stroke-linecap="round"/>
+          <path d="M0,3 Q75,19 150,3 T300,3 T450,3 T600,3 T750,3 T900,3 T1050,3 T1200,3" fill="none" stroke="#216e4e" stroke-width="1.4" stroke-dasharray="6 8"/>
+        </svg>
+        <div class="garland-bulbs-row">
+          <span class="garland-bulb red" style="--drop: 2px;"></span>
+          <span class="garland-bulb gold" style="--drop: 8px;"></span>
+          <span class="garland-bulb green" style="--drop: 4px;"></span>
+          <span class="garland-bulb blue" style="--drop: 9px;"></span>
+          <span class="garland-bulb warm" style="--drop: 3px;"></span>
+          <span class="garland-bulb red" style="--drop: 8px;"></span>
+          <span class="garland-bulb gold" style="--drop: 2px;"></span>
+          <span class="garland-bulb green" style="--drop: 9px;"></span>
+          <span class="garland-bulb blue" style="--drop: 4px;"></span>
+          <span class="garland-bulb warm" style="--drop: 8px;"></span>
+          <span class="garland-bulb red" style="--drop: 3px;"></span>
+          <span class="garland-bulb gold" style="--drop: 9px;"></span>
+          <span class="garland-bulb green" style="--drop: 2px;"></span>
+          <span class="garland-bulb blue" style="--drop: 8px;"></span>
+          <span class="garland-bulb warm" style="--drop: 4px;"></span>
+          <span class="garland-bulb red" style="--drop: 9px;"></span>
+          <span class="garland-bulb gold" style="--drop: 3px;"></span>
+          <span class="garland-bulb green" style="--drop: 8px;"></span>
+          <span class="garland-bulb blue" style="--drop: 2px;"></span>
+          <span class="garland-bulb warm" style="--drop: 9px;"></span>
+          <span class="garland-bulb red" style="--drop: 4px;"></span>
+          <span class="garland-bulb gold" style="--drop: 7px;"></span>
+        </div>
       </div>
 
       <!-- Top Application Header -->
@@ -245,6 +282,20 @@
           
           <!-- Event Header Banner (3D Cozy Christmas Showcase) -->
           <div class="event-banner">
+            <div class="banner-fairy-lights" aria-hidden="true">
+              <span class="f-bulb red"></span>
+              <span class="f-bulb gold"></span>
+              <span class="f-bulb green"></span>
+              <span class="f-bulb blue"></span>
+              <span class="f-bulb warm"></span>
+              <span class="f-bulb red"></span>
+              <span class="f-bulb gold"></span>
+              <span class="f-bulb green"></span>
+              <span class="f-bulb blue"></span>
+              <span class="f-bulb warm"></span>
+              <span class="f-bulb red"></span>
+              <span class="f-bulb gold"></span>
+            </div>
             <div class="event-banner-left">
               <div class="event-christmas-art" aria-hidden="true">
                 <svg width="88" height="88" viewBox="0 0 96 96" fill="none">
@@ -958,7 +1009,180 @@
 
 
         <!-- ========================================== -->
-        <!-- VIEW 5: CONFIGURAÇÕES                      -->
+        <!-- VIEW 5: PAINEL ADMINISTRATIVO (ADM)        -->
+        <!-- ========================================== -->
+        <section id="view-admin" class="app-view" aria-labelledby="admin-heading">
+
+          <div class="view-header">
+            <div>
+              <h2 id="admin-heading" class="view-title">Painel Administrativo (ADM)</h2>
+              <p class="view-subtitle">Controle de pessoas cadastradas, ranking de vendas por vendedor e auditoria completa</p>
+            </div>
+            <div class="view-header-actions">
+              <div class="filter-period-wrapper" style="min-width: 170px;">
+                <select id="admin-filter-period" class="form-select form-input-sm" aria-label="Filtrar período no painel administrativo">
+                  <option value="all" selected>Todo o Período</option>
+                  <option value="thisMonth">Este Mês</option>
+                  <option value="last7">Últimos 7 dias</option>
+                  <option value="today">Hoje</option>
+                </select>
+              </div>
+              <button id="btn-admin-export-csv" class="btn btn-secondary btn-sm" title="Exportar ranking e vendas por pessoa em CSV">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                <span>Exportar Ranking CSV</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Admin Auth Status Banner -->
+          <div id="admin-access-banner" class="admin-access-banner is-warning">
+            <div class="admin-banner-content">
+              <div class="admin-banner-icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                  <path d="M9 12l2 2 4-4"></path>
+                </svg>
+              </div>
+              <div>
+                <h3 id="admin-banner-title" class="admin-banner-title">Verificando nível de acesso...</h3>
+                <p id="admin-banner-desc" class="admin-banner-desc">Carregando permissões da conta conectada.</p>
+              </div>
+            </div>
+            <button id="btn-admin-open-auth" type="button" class="btn btn-primary btn-sm">Entrar como ADM</button>
+          </div>
+
+          <!-- Admin KPI Summary -->
+          <div class="report-highlights-grid">
+            <div class="highlight-item income">
+              <span class="highlight-label">Total de Vendas</span>
+              <span id="admin-kpi-sales-total" class="highlight-value font-display">R$ 0,00</span>
+              <span id="admin-kpi-sales-count" class="highlight-sub">0 vendas no período</span>
+            </div>
+            <div class="highlight-item balance">
+              <span class="highlight-label">Pessoas Cadastradas</span>
+              <span id="admin-kpi-users-count" class="highlight-value font-display">0</span>
+              <span id="admin-kpi-users-sub" class="highlight-sub">0 contas na nuvem</span>
+            </div>
+            <div class="highlight-item avg">
+              <span class="highlight-label">Ticket Médio de Venda</span>
+              <span id="admin-kpi-avg-ticket" class="highlight-value font-display">R$ 0,00</span>
+              <span id="admin-kpi-avg-sub" class="highlight-sub">Média por venda realizada</span>
+            </div>
+            <div class="highlight-item">
+              <span class="highlight-label">Maior Vendedor</span>
+              <span id="admin-kpi-top-seller" class="highlight-value font-display">-</span>
+              <span id="admin-kpi-top-seller-val" class="highlight-sub">R$ 0,00</span>
+            </div>
+          </div>
+
+          <!-- Card 1: Registered Users & Seller Sales Leaderboard -->
+          <div class="card mb-4">
+            <div class="card-header-with-action">
+              <div>
+                <h3 class="card-title">Pessoas Cadastradas & Desempenho de Vendas</h3>
+                <p class="card-subtitle">Acompanhe quanto cada usuário ou responsável vendeu e gerencie cargos</p>
+              </div>
+              <span id="admin-users-visible-count" class="stat-pill-brand">0 pessoas</span>
+            </div>
+
+            <div class="filter-row primary admin-toolbar">
+              <div class="search-box">
+                <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                <input type="text" id="admin-search-users" class="form-input search-input" placeholder="Buscar pessoa por nome, e-mail ou função..." aria-label="Buscar pessoas cadastradas" />
+              </div>
+
+              <div class="filter-select-wrapper">
+                <select id="admin-filter-role" class="form-select" aria-label="Filtrar por tipo de conta">
+                  <option value="all">Todos os Perfis</option>
+                  <option value="registered">Somente Contas na Nuvem</option>
+                  <option value="withSales">Com Vendas Realizadas</option>
+                  <option value="admin">Administradores</option>
+                  <option value="manager">Coordenadores</option>
+                  <option value="staff">Expositores / Equipe</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th class="text-center" style="width: 54px;">#</th>
+                    <th>Pessoa / Conta</th>
+                    <th>Função / Cargo</th>
+                    <th class="text-center">Vendas</th>
+                    <th class="text-right">Total Vendido</th>
+                    <th class="text-right">Ticket Médio</th>
+                    <th class="text-center">Última Venda</th>
+                    <th class="text-center">Detalhes</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-users-tbody"></tbody>
+              </table>
+            </div>
+
+            <div id="admin-users-empty" class="empty-state hidden">
+              <h3 class="empty-state-title">Nenhuma pessoa encontrada</h3>
+              <p class="empty-state-desc">Ajuste o filtro de busca ou realize lançamentos para visualizar o ranking.</p>
+            </div>
+          </div>
+
+          <!-- Card 2: Sales Audit Drill-Down Table -->
+          <div id="admin-sales-audit-card" class="card">
+            <div class="card-header-with-action">
+              <div>
+                <h3 class="card-title">Auditoria de Vendas por Pessoa</h3>
+                <p id="admin-audit-summary" class="card-subtitle">Todas as pessoas • 0 registros</p>
+              </div>
+              <button id="btn-admin-clear-seller" type="button" class="btn btn-ghost btn-xs hidden">Mostrar Todas as Pessoas</button>
+            </div>
+
+            <div class="filter-row primary admin-toolbar">
+              <div class="filter-select-wrapper" style="flex: 2;">
+                <select id="admin-filter-seller" class="form-select" aria-label="Filtrar lançamentos por vendedor">
+                  <option value="all">Todas as Pessoas / Vendedores</option>
+                </select>
+              </div>
+              <div class="filter-select-wrapper" style="flex: 1;">
+                <select id="admin-filter-tx-type" class="form-select" aria-label="Filtrar tipo de movimentação">
+                  <option value="income" selected>Somente Vendas / Receitas</option>
+                  <option value="all">Receitas e Despesas</option>
+                  <option value="expense">Somente Despesas</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="data-table table-condensed">
+                <thead>
+                  <tr>
+                    <th>Data</th>
+                    <th>Tipo</th>
+                    <th>Descrição / Categoria</th>
+                    <th>Vendedor / Responsável</th>
+                    <th>Forma Pgto</th>
+                    <th class="text-right">Valor</th>
+                    <th class="text-center">Recibo</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-sales-tbody"></tbody>
+              </table>
+            </div>
+
+            <div id="admin-sales-empty" class="empty-state hidden">
+              <h3 class="empty-state-title">Nenhuma movimentação encontrada</h3>
+              <p class="empty-state-desc">Não há vendas ou registros correspondentes ao vendedor e período selecionados.</p>
+            </div>
+          </div>
+
+        </section>
+
+
+        <!-- ========================================== -->
+        <!-- VIEW 6: CONFIGURAÇÕES                      -->
         <!-- ========================================== -->
         <section id="view-settings" class="app-view" aria-labelledby="settings-heading">
           
@@ -1444,11 +1668,39 @@
             </svg>
           </div>
           <div>
-            <h3 id="auth-modal-title" class="modal-title">Acesso ao FeiraFinance Pro</h3>
-            <p class="auth-modal-subtitle">Sincronização em Nuvem (Google Firestore) & Multi-Usuário</p>
+            <h3 id="auth-modal-title" class="modal-title">Conta FeiraFinance</h3>
+            <p class="auth-modal-subtitle">Crie sua conta ou entre para sincronizar na nuvem (Firestore)</p>
           </div>
         </div>
         <button id="btn-close-auth-modal" class="btn-icon" aria-label="Fechar modal de autenticação">✕</button>
+      </div>
+
+      <!-- Alert Banners -->
+      <div id="auth-error-banner" class="auth-feedback-banner error hidden" role="alert">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+        <span id="auth-error-text">Ocorreu um erro ao autenticar.</span>
+      </div>
+
+      <div id="auth-success-banner" class="auth-feedback-banner success hidden" role="status">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+        <span id="auth-success-text">Operação concluída com sucesso!</span>
+      </div>
+
+      <!-- 1-Click Google Account Creation / Sign-In -->
+      <div class="auth-google-box">
+        <button type="button" id="btn-google-auth" class="btn btn-google-auth w-full">
+          <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+            <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17Z"/>
+            <path fill="#34A853" d="M12 24c3.3 0 6.08-1.09 8.1-2.96l-3.88-3.05c-1.1.74-2.51 1.18-4.22 1.18-3.24 0-5.99-2.19-6.97-5.13H1.03v3.14C3.04 21.18 7.22 24 12 24Z"/>
+            <path fill="#FBBC05" d="M5.03 14.04c-.25-.74-.39-1.54-.39-2.36 0-.82.14-1.62.39-2.36V6.18H1.03A11.98 11.98 0 0 0 0 11.68c0 1.93.46 3.76 1.03 5.5l4-3.14Z"/>
+            <path fill="#EA4335" d="M12 4.75c1.8 0 3.41.62 4.68 1.84l3.51-3.51C18.07 1.19 15.3 0 12 0 7.22 0 3.04 2.82 1.03 7.18l4 3.14C6.01 6.94 8.76 4.75 12 4.75Z"/>
+          </svg>
+          <span>Continuar com Google (Criar / Entrar)</span>
+        </button>
+      </div>
+
+      <div class="auth-divider auth-divider-compact">
+        <span>ou com e-mail e senha</span>
       </div>
 
       <!-- Segmented Auth Tabs -->
@@ -1461,17 +1713,6 @@
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
           <span>Criar Conta</span>
         </button>
-      </div>
-
-      <!-- Alert Banners -->
-      <div id="auth-error-banner" class="auth-feedback-banner error hidden" role="alert">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
-        <span id="auth-error-text">Ocorreu um erro ao autenticar.</span>
-      </div>
-
-      <div id="auth-success-banner" class="auth-feedback-banner success hidden" role="status">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-        <span id="auth-success-text">Operação concluída com sucesso!</span>
       </div>
 
       <!-- Form 1: Login Form -->

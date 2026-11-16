@@ -331,6 +331,72 @@ body {
   border-color: rgba(255, 255, 255, 0.35);
 }
 
+/* Sidebar Twinkling Fairy Lights */
+.sidebar-lights {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0.45rem 1rem 0.65rem;
+  border-top: 1px dashed rgba(253, 230, 138, 0.16);
+  position: relative;
+}
+
+.s-bulb {
+  width: 9px;
+  height: 12px;
+  border-radius: 50% 50% 60% 60%;
+  position: relative;
+  animation: festiveTwinkleA 2s ease-in-out infinite;
+}
+
+.s-bulb::before {
+  content: "";
+  position: absolute;
+  top: -3px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 5px;
+  height: 4px;
+  border-radius: 2px;
+  background: #0d2b1f;
+  border: 1px solid rgba(253, 230, 138, 0.35);
+}
+
+.s-bulb.red {
+  background: radial-gradient(circle at 35% 30%, #ffd2d8, #ff2e4c 55%, #b91c2e);
+  box-shadow: 0 0 10px 2px rgba(255, 46, 76, 0.85), 0 0 20px rgba(255, 46, 76, 0.45);
+  animation-name: festiveTwinkleA;
+  animation-delay: 0s;
+}
+
+.s-bulb.gold {
+  background: radial-gradient(circle at 35% 30%, #fffbeb, #fbbf24 55%, #b45309);
+  box-shadow: 0 0 10px 2px rgba(251, 191, 36, 0.88), 0 0 20px rgba(251, 191, 36, 0.45);
+  animation-name: festiveTwinkleB;
+  animation-delay: 0.4s;
+}
+
+.s-bulb.green {
+  background: radial-gradient(circle at 35% 30%, #d1fae5, #10b981 55%, #047857);
+  box-shadow: 0 0 10px 2px rgba(16, 185, 129, 0.85), 0 0 20px rgba(16, 185, 129, 0.45);
+  animation-name: festiveTwinkleC;
+  animation-delay: 0.8s;
+}
+
+.s-bulb.blue {
+  background: radial-gradient(circle at 35% 30%, #e0f2fe, #38bdf8 55%, #0284c7);
+  box-shadow: 0 0 10px 2px rgba(56, 189, 248, 0.85), 0 0 20px rgba(56, 189, 248, 0.45);
+  animation-name: festiveTwinkleA;
+  animation-delay: 1.2s;
+}
+
+.s-bulb.warm {
+  background: radial-gradient(circle at 35% 30%, #ffffff, #fde68a 60%, #d97706);
+  box-shadow: 0 0 10px 2px rgba(253, 230, 138, 0.9), 0 0 22px rgba(253, 230, 138, 0.5);
+  animation-name: festiveTwinkleB;
+  animation-delay: 0.2s;
+}
+
 .sidebar-footer {
   padding: 1rem 1rem 1.25rem;
   border-top: 1px solid rgba(255, 248, 225, 0.12);
@@ -389,41 +455,161 @@ body {
   min-width: 0;
 }
 
-/* Festive Garland String Lights Trim */
+/* Eye-Catching Draped Christmas Pisca-Pisca String Lights */
 .christmas-garland {
-  height: 10px;
-  background: linear-gradient(90deg, #156144 0%, #c81e32 50%, #156144 100%);
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  padding: 0 1rem;
+  height: 26px;
+  background: linear-gradient(180deg, #0b291d 0%, #123a29 70%, rgba(18, 58, 41, 0) 100%);
   position: sticky;
   top: 0;
-  z-index: 31;
-  box-shadow: 0 2px 6px rgba(15, 45, 32, 0.25);
+  z-index: 32;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.garland-wire {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 22px;
+  display: block;
+}
+
+.garland-bulbs-row {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-around;
+  padding: 0 0.75rem;
+  height: 100%;
 }
 
 .garland-bulb {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  transform: translateY(3px);
-  box-shadow: inset -1px -1px 2px rgba(0, 0, 0, 0.25), 0 2px 6px currentColor;
-  animation: twinkleBulb 2.8s ease-in-out infinite;
+  position: relative;
+  width: 11px;
+  height: 15px;
+  margin-top: calc(4px + var(--drop, 4px));
+  border-radius: 50% 50% 58% 58% / 45% 45% 65% 65%;
+  transform-origin: top center;
+  animation-duration: 1.9s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
 }
 
-.garland-bulb.red { background: #ff4d63; color: #ff4d63; animation-delay: 0s; }
-.garland-bulb.gold { background: #fbbf24; color: #fbbf24; animation-delay: 0.7s; }
-.garland-bulb.green { background: #34d399; color: #34d399; animation-delay: 1.4s; }
-.garland-bulb.snow { background: #fff9eb; color: #fef3c7; animation-delay: 2.1s; }
+/* Socket Cap */
+.garland-bulb::before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 7px;
+  height: 5px;
+  border-radius: 2px 2px 1px 1px;
+  background: linear-gradient(180deg, #275841, #0a2419);
+  border: 1px solid rgba(253, 230, 138, 0.35);
+}
 
-@keyframes twinkleBulb {
-  0%, 100% { opacity: 0.75; transform: translateY(3px) scale(0.95); }
-  50% { opacity: 1; transform: translateY(3px) scale(1.15); }
+/* Specular Gloss Dot */
+.garland-bulb::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 3px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.85);
+}
+
+.garland-bulb.red {
+  background: radial-gradient(circle at 38% 35%, #ffe4e8 0%, #ff2a48 48%, #9f1229 100%);
+  color: #ff2a48;
+  box-shadow: 0 3px 12px 2px rgba(255, 42, 72, 0.9), 0 0 24px 4px rgba(255, 42, 72, 0.55);
+  animation-name: festiveTwinkleA;
+  animation-delay: 0s;
+}
+
+.garland-bulb.gold {
+  background: radial-gradient(circle at 38% 35%, #fffdf0 0%, #fbbf24 50%, #b45309 100%);
+  color: #fbbf24;
+  box-shadow: 0 3px 12px 2px rgba(251, 191, 36, 0.92), 0 0 24px 4px rgba(251, 191, 36, 0.55);
+  animation-name: festiveTwinkleB;
+  animation-delay: 0.45s;
+}
+
+.garland-bulb.green {
+  background: radial-gradient(circle at 38% 35%, #ecfdf5 0%, #10e088 50%, #047857 100%);
+  color: #10e088;
+  box-shadow: 0 3px 12px 2px rgba(16, 224, 136, 0.9), 0 0 24px 4px rgba(16, 224, 136, 0.55);
+  animation-name: festiveTwinkleC;
+  animation-delay: 0.9s;
+}
+
+.garland-bulb.blue {
+  background: radial-gradient(circle at 38% 35%, #f0f9ff 0%, #38bdf8 50%, #0369a1 100%);
+  color: #38bdf8;
+  box-shadow: 0 3px 12px 2px rgba(56, 189, 248, 0.9), 0 0 24px 4px rgba(56, 189, 248, 0.55);
+  animation-name: festiveTwinkleA;
+  animation-delay: 1.3s;
+}
+
+.garland-bulb.warm {
+  background: radial-gradient(circle at 38% 35%, #ffffff 0%, #fde68a 58%, #d97706 100%);
+  color: #fde68a;
+  box-shadow: 0 3px 14px 3px rgba(253, 230, 138, 0.95), 0 0 26px 5px rgba(253, 230, 138, 0.6);
+  animation-name: festiveTwinkleB;
+  animation-delay: 0.22s;
+}
+
+@keyframes festiveTwinkleA {
+  0%, 100% {
+    opacity: 0.52;
+    transform: scale(0.92) rotate(-2deg);
+    filter: brightness(0.78);
+  }
+  35%, 60% {
+    opacity: 1;
+    transform: scale(1.16) rotate(2deg);
+    filter: brightness(1.3);
+  }
+}
+
+@keyframes festiveTwinkleB {
+  0%, 50%, 100% {
+    opacity: 1;
+    transform: scale(1.14) rotate(1.5deg);
+    filter: brightness(1.25);
+  }
+  25%, 75% {
+    opacity: 0.45;
+    transform: scale(0.9) rotate(-2deg);
+    filter: brightness(0.75);
+  }
+}
+
+@keyframes festiveTwinkleC {
+  0%, 100% {
+    opacity: 0.85;
+    transform: scale(1.02);
+    filter: brightness(1.05);
+  }
+  45% {
+    opacity: 0.42;
+    transform: scale(0.88) rotate(-2deg);
+    filter: brightness(0.72);
+  }
+  75% {
+    opacity: 1;
+    transform: scale(1.18) rotate(2deg);
+    filter: brightness(1.35);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .garland-bulb { animation: none; }
+  .garland-bulb, .s-bulb, .f-bulb {
+    animation: none !important;
+  }
 }
 
 /* Application Header */
@@ -439,7 +625,7 @@ body {
   gap: 0.75rem 1.5rem;
   padding: 0.85rem 1.75rem;
   position: sticky;
-  top: 10px;
+  top: 26px;
   z-index: 30;
   flex-wrap: wrap;
 }
@@ -582,7 +768,14 @@ body {
     padding: 1.25rem;
   }
 
+  .christmas-garland {
+    position: relative;
+    top: auto;
+  }
+
   .app-header {
+    position: relative;
+    top: 0;
     padding: 0.8rem 1.25rem;
   }
 }

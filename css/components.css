@@ -179,10 +179,12 @@
    Event Banner (3D Cozy Christmas Pine & Gold Showcase)
    -------------------------------------------------------- */
 .event-banner {
+  position: relative;
+  overflow: hidden;
   background: linear-gradient(135deg, #164734 0%, #1d5941 55%, #113829 100%);
   border: 1px solid rgba(253, 230, 138, 0.3);
   border-radius: var(--radius-lg);
-  padding: 1.35rem 1.75rem;
+  padding: 1.8rem 1.75rem 1.35rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -190,6 +192,63 @@
   margin-bottom: 1.5rem;
   box-shadow: inset 0 2px 0 rgba(255, 250, 230, 0.2), 0 7px 0 #0b261b, 0 16px 28px rgba(10, 32, 22, 0.25);
   color: #fdf8ed;
+}
+
+.banner-fairy-lights {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 18px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-around;
+  padding: 0 1.25rem;
+  border-top: 2px solid rgba(253, 230, 138, 0.25);
+  pointer-events: none;
+}
+
+.f-bulb {
+  width: 8px;
+  height: 11px;
+  margin-top: 2px;
+  border-radius: 50% 50% 60% 60%;
+  animation: festiveTwinkleB 2.1s ease-in-out infinite;
+}
+
+.f-bulb.red {
+  background: radial-gradient(circle at 35% 30%, #ffdbe0, #ff2e4c 60%, #9f1229);
+  box-shadow: 0 0 9px 2px rgba(255, 46, 76, 0.85);
+  animation-name: festiveTwinkleA;
+  animation-delay: 0.1s;
+}
+
+.f-bulb.gold {
+  background: radial-gradient(circle at 35% 30%, #fffbeb, #fbbf24 60%, #b45309);
+  box-shadow: 0 0 9px 2px rgba(251, 191, 36, 0.9);
+  animation-name: festiveTwinkleB;
+  animation-delay: 0.55s;
+}
+
+.f-bulb.green {
+  background: radial-gradient(circle at 35% 30%, #d1fae5, #10e088 60%, #047857);
+  box-shadow: 0 0 9px 2px rgba(16, 224, 136, 0.85);
+  animation-name: festiveTwinkleC;
+  animation-delay: 1s;
+}
+
+.f-bulb.blue {
+  background: radial-gradient(circle at 35% 30%, #e0f2fe, #38bdf8 60%, #0284c7);
+  box-shadow: 0 0 9px 2px rgba(56, 189, 248, 0.85);
+  animation-name: festiveTwinkleA;
+  animation-delay: 1.4s;
+}
+
+.f-bulb.warm {
+  background: radial-gradient(circle at 35% 30%, #ffffff, #fde68a 60%, #d97706);
+  box-shadow: 0 0 10px 2px rgba(253, 230, 138, 0.92);
+  animation-name: festiveTwinkleB;
+  animation-delay: 0.3s;
 }
 
 .event-banner-left {
@@ -2801,6 +2860,32 @@
   margin-top: 0.15rem;
 }
 
+.auth-google-box {
+  margin-top: 1.1rem;
+}
+
+.btn-google-auth {
+  background: var(--bg-surface-elevated);
+  border: 1px solid var(--border-medium);
+  color: var(--text-primary);
+  font-weight: 600;
+  padding: 0.72rem 1rem;
+  border-radius: var(--radius-md);
+  box-shadow: inset 0 2px 0 var(--surface-gloss), 0 4px 0 var(--btn-lip), 0 6px 14px rgba(18, 45, 32, 0.08);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), background-color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.btn-google-auth:hover {
+  background: var(--bg-surface-hover);
+  border-color: var(--border-strong);
+  transform: translateY(-1px);
+}
+
+.btn-google-auth:active {
+  transform: translateY(2px);
+  box-shadow: inset 0 1px 0 var(--surface-gloss), 0 1px 0 var(--btn-lip);
+}
+
 .auth-tab-nav {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -2809,7 +2894,7 @@
   background: var(--bg-surface-elevated);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
-  margin: 1.25rem 0 1.2rem 0;
+  margin: 0 0 1.1rem 0;
 }
 
 .auth-tab-btn {
@@ -2841,12 +2926,18 @@
 
 .auth-feedback-banner {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 0.65rem;
   padding: 0.75rem 0.9rem;
   border-radius: var(--radius-sm);
   font-size: 0.82rem;
-  margin-bottom: 1.15rem;
+  line-height: 1.4;
+  margin-top: 0.95rem;
+}
+
+.auth-feedback-banner svg {
+  flex-shrink: 0;
+  margin-top: 0.1rem;
 }
 
 .auth-feedback-banner.error {
@@ -2935,5 +3026,227 @@
   gap: 0.35rem;
   margin-top: 0.2rem;
 }
+
+/* ========================================================
+   Painel Administrativo (ADM) — Vendas & Cadastros
+   ======================================================== */
+.mb-4 {
+  margin-bottom: 1.5rem;
+}
+
+.font-medium {
+  font-weight: 500;
+}
+
+.admin-access-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-medium);
+  margin-bottom: 1.5rem;
+  box-shadow: var(--shadow-xs);
+  flex-wrap: wrap;
+}
+
+.admin-access-banner.is-admin {
+  background: var(--color-income-bg);
+  border-color: var(--color-income-border);
+  color: var(--text-primary);
+}
+
+.admin-access-banner.is-admin .admin-banner-icon {
+  background: var(--color-income);
+  color: #ffffff;
+}
+
+.admin-access-banner.is-warning {
+  background: var(--color-warning-bg);
+  border-color: rgba(217, 144, 20, 0.4);
+  color: var(--text-primary);
+}
+
+.admin-access-banner.is-warning .admin-banner-icon {
+  background: var(--color-warning);
+  color: #ffffff;
+}
+
+.admin-banner-content {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  flex: 1 1 300px;
+}
+
+.admin-banner-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35), 0 3px 0 rgba(0, 0, 0, 0.16);
+}
+
+.admin-banner-title {
+  font-family: var(--font-display);
+  font-size: 0.98rem;
+  font-weight: 700;
+  margin-bottom: 0.15rem;
+}
+
+.admin-banner-desc {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.admin-toolbar {
+  margin-bottom: 1rem;
+}
+
+.admin-rank-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 9px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.82rem;
+  background: var(--bg-surface-elevated);
+  border: 1px solid var(--border-medium);
+  color: var(--text-secondary);
+}
+
+.admin-rank-num.gold {
+  background: linear-gradient(145deg, #fde68a, #d97706);
+  color: #3f1d00;
+  border-color: rgba(245, 158, 11, 0.65);
+  box-shadow: 0 2px 0 #92400e;
+}
+
+.admin-rank-num.silver {
+  background: linear-gradient(145deg, #f1f5f9, #94a3b8);
+  color: #1e293b;
+  border-color: rgba(148, 163, 184, 0.6);
+  box-shadow: 0 2px 0 #475569;
+}
+
+.admin-rank-num.bronze {
+  background: linear-gradient(145deg, #fed7aa, #c2410c);
+  color: #fff7ed;
+  border-color: rgba(194, 65, 12, 0.6);
+  box-shadow: 0 2px 0 #7c2d12;
+}
+
+.admin-seller-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.admin-seller-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+  color: #ffffff;
+}
+
+.admin-seller-avatar.cloud {
+  background: linear-gradient(145deg, #df2d44, #a61627);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 3px 0 #7f101d;
+}
+
+.admin-seller-avatar.local {
+  background: linear-gradient(145deg, #1d6fa5, #12486b);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 3px 0 #0a2d45;
+}
+
+.admin-seller-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.admin-seller-name {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.admin-self-tag {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 0.1rem 0.4rem;
+  border-radius: 6px;
+  background: var(--color-brand-subtle);
+  color: var(--color-brand);
+  border: 1px solid var(--color-brand-border);
+}
+
+.admin-seller-meta {
+  font-size: 0.74rem;
+  color: var(--text-tertiary);
+}
+
+.admin-role-select {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.35rem 0.6rem;
+  border-radius: var(--radius-sm);
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  color: var(--text-primary);
+  cursor: pointer;
+}
+
+.admin-role-select:disabled {
+  opacity: 0.75;
+  cursor: not-allowed;
+}
+
+.admin-role-text {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.admin-sales-value-box {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.25rem;
+  min-width: 118px;
+}
+
+.admin-share-row {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  width: 100%;
+}
+
+.admin-share-pct {
+  font-size: 0.7rem;
+  color: var(--text-tertiary);
+  min-width: 36px;
+  text-align: right;
+}
+
 
 

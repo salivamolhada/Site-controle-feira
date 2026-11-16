@@ -2,16 +2,18 @@
   "entities": {
     "User": {
       "title": "User",
-      "description": "Perfil de usuário da feira comercial",
+      "description": "Perfil de usuário cadastrado na feira comercial",
       "type": "object",
       "properties": {
         "uid": { "type": "string", "description": "ID de autenticação do usuário" },
         "displayName": { "type": "string", "description": "Nome do usuário" },
         "email": { "type": "string", "description": "E-mail do usuário" },
-        "role": { "type": "string", "enum": ["admin", "manager", "staff"], "description": "Função ou nível de acesso" },
-        "createdAt": { "type": "string", "format": "date-time", "description": "Data de criação da conta" }
+        "role": { "type": "string", "enum": ["admin", "manager", "staff"], "description": "Nível de acesso no sistema" },
+        "roleTitle": { "type": "string", "description": "Cargo ou função exibida no evento" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Data de criação da conta" },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Última atualização do perfil" }
       },
-      "required": ["uid", "email"]
+      "required": ["uid", "email", "role"]
     },
     "Transaction": {
       "title": "Transaction",
@@ -20,6 +22,9 @@
       "properties": {
         "id": { "type": "string", "description": "Identificador único do lançamento" },
         "uid": { "type": "string", "description": "UID do usuário criador" },
+        "createdByUid": { "type": "string", "description": "UID do usuário que registrou a venda" },
+        "createdByName": { "type": "string", "description": "Nome do vendedor/operador que registrou" },
+        "createdByEmail": { "type": "string", "description": "E-mail do vendedor/operador que registrou" },
         "type": { "type": "string", "enum": ["income", "expense"], "description": "Tipo de lançamento" },
         "description": { "type": "string", "description": "Descrição do lançamento" },
         "amount": { "type": "number", "description": "Valor monetário em reais" },
@@ -28,7 +33,8 @@
         "responsible": { "type": "string", "description": "Pessoa ou expositor responsável" },
         "date": { "type": "string", "description": "Data do lançamento" },
         "notes": { "type": "string", "description": "Observações adicionais" },
-        "createdAt": { "type": "string", "format": "date-time", "description": "Timestamp de criação" }
+        "createdAt": { "type": "string", "format": "date-time", "description": "Timestamp de criação" },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Timestamp de atualização" }
       },
       "required": ["type", "description", "amount", "date", "category"]
     },

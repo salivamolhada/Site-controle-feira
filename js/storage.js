@@ -9,7 +9,8 @@ import {
   deleteTransactionsBatchFromFirestore,
   saveBoothToFirestore,
   deleteBoothFromFirestore,
-  saveSettingsToFirestore
+  saveSettingsToFirestore,
+  getCurrentAuthActor
 } from './firebase.js';
 
 const STORAGE_KEYS = {
@@ -467,6 +468,7 @@ export const Storage = {
 
   addTransaction(transaction) {
     const list = this.getTransactions();
+    const actor = getCurrentAuthActor();
     const newTx = {
       id: transaction.id || `tx_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
       type: transaction.type,
@@ -475,12 +477,17 @@ export const Storage = {
       amount: Number(transaction.amount),
       date: transaction.date,
       paymentMethod: transaction.paymentMethod,
-      responsible: (transaction.responsible || '').trim(),
+      responsible: (transaction.responsible || '').trim() || (actor && !actor.isAnonymous ? actor.name : ''),
       notes: (transaction.notes || '').trim(),
+      uid: transaction.uid || (actor ? actor.uid : ''),
+      createdByUid: transaction.createdByUid || (actor ? actor.uid : ''),
+      createdByName: transaction.createdByName || (actor ? actor.name : ''),
+      createdByEmail: transaction.createdByEmail || (actor ? actor.email : ''),
       createdAt: new Date().toISOString()
     };
     list.unshift(newTx);
     this.saveTransactions(list);
+    window.dispatchEvent(new CustomEvent('feirafinance:tx-updated'));
 
     // Salva no Cloud Firestore de forma assíncrona
     saveTransactionToFirestore(newTx).catch(err => console.warn('[Storage] Sync Firestore falhou:', err));
@@ -504,6 +511,7 @@ export const Storage = {
     };
 
     this.saveTransactions(list);
+    window.dispatchEvent(new CustomEvent('feirafinance:tx-updated'));
 
     // Salva atualização no Cloud Firestore
     saveTransactionToFirestore(list[index]).catch(err => console.warn('[Storage] Sync Firestore falhou:', err));
@@ -515,6 +523,7 @@ export const Storage = {
     const list = this.getTransactions();
     const filtered = list.filter(item => item.id !== id);
     this.saveTransactions(filtered);
+    window.dispatchEvent(new CustomEvent('feirafinance:tx-updated'));
 
     // Remove do Cloud Firestore
     deleteTransactionFromFirestore(id).catch(err => console.warn('[Storage] Sync Firestore falhou:', err));
@@ -527,6 +536,7 @@ export const Storage = {
     const list = this.getTransactions();
     const filtered = list.filter(item => !set.has(item.id));
     this.saveTransactions(filtered);
+    window.dispatchEvent(new CustomEvent('feirafinance:tx-updated'));
 
     // Remove em lote do Cloud Firestore
     deleteTransactionsBatchFromFirestore(ids).catch(err => console.warn('[Storage] Sync Firestore falhou:', err));

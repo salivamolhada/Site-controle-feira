@@ -18,6 +18,7 @@ import {
 } from './ui.js';
 import { FilterState, getPaginatedTransactions, renderActiveFilterChips, getFilteredTransactions } from './filters.js';
 import { updateDashboard } from './dashboard.js';
+import { getCurrentAuthActor } from './firebase.js';
 
 let selectedIds = new Set();
 let pendingDeleteId = null;
@@ -341,7 +342,9 @@ export function openNewTransactionModal(defaultType = 'income', prefillData = {}
   const today = new Date().toISOString().split('T')[0];
   document.getElementById('tx-date').value = prefillData.date || today;
 
-  document.getElementById('tx-responsible').value = prefillData.responsible || '';
+  const actor = getCurrentAuthActor();
+  const defaultResponsible = prefillData.responsible || (actor && !actor.isAnonymous ? actor.name : '');
+  document.getElementById('tx-responsible').value = defaultResponsible;
   document.getElementById('tx-notes').value = prefillData.notes || '';
 
   document.querySelectorAll('.field-error').forEach(el => el.classList.add('hidden'));

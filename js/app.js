@@ -29,6 +29,7 @@ import {
   openBoothModal
 } from './booths.js';
 import {
+  loginWithGoogle,
   loginUser,
   registerUser,
   loginAsGuest,
@@ -37,9 +38,14 @@ import {
   subscribeTransactions,
   subscribeBooths,
   subscribeSettings,
+  subscribeUsers,
+  getUserProfile,
+  saveUserProfile,
+  isUserAdmin,
   seedDemoDataToFirestore
 } from './firebase.js';
 import { initChristmasSnow } from './snow.js';
+import { initAdminModule, renderAdminView, setAdminContext } from './admin.js';
 
 // Estado global da aplicação
 let currentTab = 'dashboard';
@@ -57,6 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initBoothsModule();
   initFilterControls();
   initReportsModule();
+  initAdminModule();
   initSettingsModule();
   initGlobalShortcuts();
   initAuthAndCloudSync();
@@ -209,6 +216,10 @@ function initNavigation() {
       title: 'Relatórios e Análise Financeira',
       subtitle: 'Demonstrativo consolidado, distribuição orçamentária e exportações'
     },
+    admin: {
+      title: 'Painel Administrativo (ADM)',
+      subtitle: 'Pessoas cadastradas, ranking de vendas por vendedor e auditoria completa'
+    },
     settings: {
       title: 'Configurações do Evento',
       subtitle: 'Personalize a identidade da feira, categorias e parâmetros locais'
@@ -244,6 +255,8 @@ function initNavigation() {
       renderBoothsView();
     } else if (tabName === 'reports') {
       renderReportsView();
+    } else if (tabName === 'admin') {
+      renderAdminView();
     } else if (tabName === 'settings') {
       loadSettingsView();
     }
@@ -781,6 +794,7 @@ function initGlobalShortcuts() {
 function initAuthAndCloudSync() {
   const btnOpenAuth = document.getElementById('btn-open-auth-modal');
   const btnCloseAuth = document.getElementById('btn-close-auth-modal');
+  const btnGoogleAuth = document.getElementById('btn-google-auth');
   const btnTabLogin = document.getElementById('btn-auth-tab-login');
   const btnTabReg = document.getElementById('btn-auth-tab-register');
   const formLogin = document.getElementById('form-auth-login');
@@ -798,10 +812,13 @@ function initAuthAndCloudSync() {
   const btnLogout = document.getElementById('btn-user-logout');
   const cloudSyncBadge = document.getElementById('cloud-sync-badge');
   const cloudSyncText = document.getElementById('cloud-sync-text');
+  const navAdminBadge = document.getElementById('nav-admin-badge');
 
   let unsubTx = null;
   let unsubBooths = null;
   let unsubSettings = null;
+  let unsubUsers = null;
+  let authSeq = 0;
 
   function showAuthError(msg) {
     if (errorText) errorText.textContent = msg || 'Ocorreu um erro na autenticação.';
@@ -831,6 +848,38 @@ function initAuthAndCloudSync() {
   if (btnCloseAuth) {
     btnCloseAuth.addEventListener('click', () => {
       closeModal('modal-auth');
+    });
+  }
+
+  // Login / Criar Conta Instantânea com Google
+  if (btnGoogleAuth) {
+    btnGoogleAuth.addEventListener('click', async () => {
+      clearAuthFeedback();
+      const roleSelect = document.getElementById('reg-role');
+      const selectedRole = roleSelect ? roleSelect.value : 'Coordenador Financeiro';
+
+      const originalBtnHtml = btnGoogleAuth.innerHTML;
+      btnGoogleAuth.disabled = true;
+      btnGoogleAuth.innerHTML = '<span>Conectando com Google...</span>';
+
+      const res = await loginWithGoogle(selectedRole);
+
+      btnGoogleAuth.disabled = false;
+      btnGoogleAuth.innerHTML = originalBtnHtml;
+
+      if (res.success) {
+        try {
+          localStorage.setItem('feirafinance_user_role', selectedRole);
+        } catch {}
+        const displayName = res.user?.displayName || res.user?.email || 'Operador';
+        showAuthSuccess('Conta Google conectada com sucesso!');
+        showToast('Conta Conectada!', `Bem-vindo(a), ${displayName}! Sincronização na nuvem ativa.`, 'success');
+        setTimeout(() => {
+          closeModal('modal-auth');
+        }, 550);
+      } else {
+        showAuthError(res.error);
+      }
     });
   }
 
@@ -890,7 +939,7 @@ function initAuthAndCloudSync() {
 
       if (res.success) {
         showAuthSuccess('Autenticado com sucesso! Carregando dados...');
-        showToast('Login Realizado', `Bem-vindo de volta! Sincronização em nuvem ativa.`, 'income');
+        showToast('Login Realizado', 'Bem-vindo de volta! Sincronização em nuvem ativa.', 'success');
         setTimeout(() => {
           closeModal('modal-auth');
           if (emailInput) emailInput.value = '';
@@ -924,6 +973,11 @@ function initAuthAndCloudSync() {
         return;
       }
 
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        showAuthError('Informe um endereço de e-mail válido.');
+        return;
+      }
+
       if (password.length < 6) {
         showAuthError('A senha precisa ter pelo menos 6 caracteres.');
         return;
@@ -935,7 +989,7 @@ function initAuthAndCloudSync() {
         submitBtn.innerHTML = '<span>Criando conta e provisionando...</span>';
       }
 
-      const res = await registerUser(email, password, name);
+      const res = await registerUser(email, password, name, role);
 
       if (submitBtn) {
         submitBtn.disabled = false;
@@ -943,8 +997,11 @@ function initAuthAndCloudSync() {
       }
 
       if (res.success) {
+        try {
+          localStorage.setItem('feirafinance_user_role', role);
+        } catch {}
         showAuthSuccess('Conta criada e vinculada ao Firestore com sucesso!');
-        showToast('Conta Criada!', `Bem-vindo ao FeiraFinance Pro, ${name}!`, 'income');
+        showToast('Conta Criada!', `Bem-vindo ao FeiraFinance, ${name}!`, 'success');
         setTimeout(() => {
           closeModal('modal-auth');
           if (nameInput) nameInput.value = '';
@@ -976,6 +1033,12 @@ function initAuthAndCloudSync() {
         setTimeout(() => {
           closeModal('modal-auth');
         }, 500);
+      } else if (res.fallbackLocalDemo) {
+        showAuthSuccess('Modo Demonstração Local ativado!');
+        showToast('Modo Demonstração Local', 'Usando dados locais do navegador. Para salvar na nuvem, use "Continuar com Google".', 'info');
+        setTimeout(() => {
+          closeModal('modal-auth');
+        }, 600);
       } else {
         showAuthError(res.error);
       }
@@ -993,7 +1056,15 @@ function initAuthAndCloudSync() {
   }
 
   // Observador de Estado de Autenticação Firebase & Conexão em Tempo Real
-  onAuthChanged((user) => {
+  onAuthChanged(async (user) => {
+    const seq = ++authSeq;
+
+    // Cancela listeners anteriores se houver
+    if (unsubTx) { unsubTx(); unsubTx = null; }
+    if (unsubBooths) { unsubBooths(); unsubBooths = null; }
+    if (unsubSettings) { unsubSettings(); unsubSettings = null; }
+    if (unsubUsers) { unsubUsers(); unsubUsers = null; }
+
     if (user) {
       // Usuário autenticado
       if (btnOpenAuth) btnOpenAuth.classList.add('hidden');
@@ -1001,20 +1072,38 @@ function initAuthAndCloudSync() {
 
       const rawName = user.displayName || (user.isAnonymous ? 'Convidado Demo' : (user.email ? user.email.split('@')[0] : 'Operador'));
       const initial = rawName.charAt(0).toUpperCase();
+      let savedRole = 'Coordenador';
+      try {
+        savedRole = localStorage.getItem('feirafinance_user_role') || 'Coordenador';
+      } catch {}
+
+      let profile = null;
+      if (!user.isAnonymous) {
+        profile = await getUserProfile(user.uid);
+        if (seq !== authSeq) return;
+        if (!profile) {
+          profile = await saveUserProfile(user, rawName, savedRole);
+          if (seq !== authSeq) return;
+        }
+      }
+
+      const isAdmin = isUserAdmin(user, profile);
+      const displayRole = user.isAnonymous
+        ? 'Convidado'
+        : (isAdmin ? 'Administrador' : (profile?.roleTitle || savedRole));
 
       if (userName) userName.textContent = rawName;
       if (userAvatar) userAvatar.textContent = initial;
-      if (userRole) userRole.textContent = user.isAnonymous ? 'Convidado' : 'Coordenador';
+      if (userRole) userRole.textContent = displayRole;
+      if (navAdminBadge) navAdminBadge.classList.toggle('hidden', !isAdmin);
+
+      setAdminContext({ user, profile, isAdmin, users: [] });
+      if (currentTab === 'admin') renderAdminView();
 
       if (cloudSyncBadge) {
         cloudSyncBadge.classList.remove('syncing', 'error');
         if (cloudSyncText) cloudSyncText.textContent = 'Firestore Online';
       }
-
-      // Cancela listeners anteriores se houver
-      if (unsubTx) unsubTx();
-      if (unsubBooths) unsubBooths();
-      if (unsubSettings) unsubSettings();
 
       // Inicia observadores em tempo real do Firestore
       let initialTxsSyncDone = false;
@@ -1035,6 +1124,8 @@ function initAuthAndCloudSync() {
           renderTransactionsTable();
           if (currentTab === 'dashboard') {
             updateDashboard();
+          } else if (currentTab === 'admin') {
+            renderAdminView();
           }
         }
       });
@@ -1055,20 +1146,29 @@ function initAuthAndCloudSync() {
         }
       });
 
+      // Diretório completo de pessoas cadastradas (somente ADM)
+      if (isAdmin) {
+        unsubUsers = subscribeUsers((remoteUsers) => {
+          setAdminContext({ users: remoteUsers || [] });
+          if (currentTab === 'admin') {
+            renderAdminView();
+          }
+        });
+      }
+
     } else {
       // Usuário deslogado / anônimo desconectado
       if (btnOpenAuth) btnOpenAuth.classList.remove('hidden');
       if (userLoggedBox) userLoggedBox.classList.add('hidden');
+      if (navAdminBadge) navAdminBadge.classList.add('hidden');
+
+      setAdminContext({ user: null, profile: null, isAdmin: false, users: [] });
+      if (currentTab === 'admin') renderAdminView();
 
       if (cloudSyncBadge) {
         cloudSyncBadge.classList.remove('syncing', 'error');
         if (cloudSyncText) cloudSyncText.textContent = 'Firestore Conectado';
       }
-
-      // Cancela listeners
-      if (unsubTx) unsubTx();
-      if (unsubBooths) unsubBooths();
-      if (unsubSettings) unsubSettings();
     }
   });
 }
